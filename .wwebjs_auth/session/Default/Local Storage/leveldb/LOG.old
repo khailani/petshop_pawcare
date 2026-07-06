@@ -1,6 +1,3 @@
-2026/07/06-09:39:32.153 68a4 Reusing MANIFEST C:\Users\khailani\OneDrive\Documents\CODING ANJAY\Kuliah Informatika\.vscode\petshop_app\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2026/07/06-09:39:32.180 68a4 Recovering log #7
-2026/07/06-09:39:32.191 68a4 Reusing old log C:\Users\khailani\OneDrive\Documents\CODING ANJAY\Kuliah Informatika\.vscode\petshop_app\.wwebjs_auth\session\Default\Local Storage\leveldb/000007.log 
-2026/07/06-09:41:41.682 7758 Level-0 table #11: started
-2026/07/06-09:41:41.718 7758 Level-0 table #11: 16917 bytes OK
-2026/07/06-09:41:41.728 7758 Delete type=0 #7
+2026/07/06-10:18:25.578 5550 Reusing MANIFEST C:\Users\khailani\OneDrive\Documents\CODING ANJAY\Kuliah Informatika\.vscode\petshop_app\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2026/07/06-10:18:25.587 5550 Recovering log #10
+2026/07/06-10:18:25.590 5550 Reusing old log C:\Users\khailani\OneDrive\Documents\CODING ANJAY\Kuliah Informatika\.vscode\petshop_app\.wwebjs_auth\session\Default\Local Storage\leveldb/000010.log 
