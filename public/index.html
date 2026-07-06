@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PawCare - Petshop Premium</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth}
+body{font-family:'Segoe UI',sans-serif;background:#fafaf8;color:#222}
+.hide{display:none!important}
+.lnav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.04);display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px}
+.lnav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.06)}
+.lnav .brand{font-size:24px;font-weight:900;color:#1a1a1a;cursor:pointer}.lnav .brand span{color:#e76f51}
+.lnav-links{display:flex;gap:30px;align-items:center}
+.lnav-links a{text-decoration:none;color:#666;font-size:13px;font-weight:600;transition:.2s}
+.lnav-links a:hover{color:#2d6a4f}
+.btn-login{padding:9px 24px;border-radius:8px;border:1.5px solid #2d6a4f;background:transparent;color:#2d6a4f;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}
+.btn-login:hover{background:#2d6a4f;color:#fff}
+.btn-login.alt{border-color:#e76f51;color:#e76f51}.btn-login.alt:hover{background:#e76f51;color:#fff}
+.mob-menu{display:none;background:none;border:none;font-size:22px;color:#333;cursor:pointer}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:#f8f8f8}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1600') center/cover}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.93),rgba(255,255,255,.55))}
+.hero-content{position:relative;z-index:2;max-width:600px;padding:0 48px}
+.hero-content h1{font-size:52px;font-weight:900;line-height:1.08;margin-bottom:18px;color:#1a1a1a}
+.hero-content h1 span{color:#e76f51}
+.hero-content p{font-size:16px;color:#666;line-height:1.8;margin-bottom:28px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{padding:12px 28px;border:none;border-radius:12px;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+.btn-g{background:linear-gradient(135deg,#2d6a4f,#40916c);color:#fff;box-shadow:0 4px 16px rgba(45,106,79,.25)}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(45,106,79,.3)}
+.btn-out{background:transparent;border:1.5px solid #e0d8cc;color:#666}.btn-out:hover{border-color:#2d6a4f;color:#2d6a4f}
+.btn-sm{padding:8px 16px;font-size:11px;border-radius:8px}
+.btn-danger{background:#dc2626;color:#fff}.btn-warn{background:#f59e0b;color:#fff}
+.btn-wa{background:#25D366;color:#fff;box-shadow:0 4px 12px rgba(37,211,102,.3)}.btn-wa:hover{background:#1da851}
+.section{padding:90px 48px}
+.section-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:3px;color:#e76f51;margin-bottom:10px}
+.section h2{font-size:34px;font-weight:900;margin-bottom:12px;color:#1a1a1a}
+.section p.desc{font-size:15px;color:#888;line-height:1.8;max-width:560px;margin-bottom:44px}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px}
+.svc-card{background:#fff;border-radius:20px;padding:30px;transition:.3s;border:1px solid rgba(0,0,0,.04)}
+.svc-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.07)}
+.svc-card .ico{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px}
+.svc-card h3{font-size:16px;font-weight:800;margin-bottom:6px}.svc-card p{font-size:12px;color:#999;line-height:1.6}
+.pet-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pet-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;aspect-ratio:1/1.1}
+.pet-card img{width:100%;height:100%;object-fit:cover;transition:.4s}.pet-card:hover img{transform:scale(1.06)}
+.pet-card .overlay{position:absolute;bottom:0;left:0;right:0;padding:18px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff}
+.pet-card .overlay h3{font-size:19px;font-weight:800}.pet-card .overlay p{font-size:11px;opacity:.75}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.doc-card{background:#fff;border-radius:20px;padding:24px;display:flex;gap:16px;align-items:center;transition:.3s;border:1px solid rgba(0,0,0,.04)}
+.doc-card:hover{border-color:#2d6a4f;box-shadow:0 10px 28px rgba(0,0,0,.06)}
+.doc-card img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid #d8f3dc;flex-shrink:0}
+.doc-card .info h3{font-size:15px;font-weight:800;margin-bottom:3px}.doc-card .info p{font-size:11px;color:#999}
+.lp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.lp-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:18px;overflow:hidden;transition:.3s}
+.lp-card:hover{box-shadow:0 14px 36px rgba(0,0,0,.07);transform:translateY(-4px)}
+.lp-card img{width:100%;height:175px;object-fit:cover}
+.lp-card .lp-body{padding:16px}
+.lp-card .lp-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#e76f51;margin-bottom:5px}
+.lp-card .lp-name{font-size:14px;font-weight:800;margin-bottom:5px}.lp-card .lp-price{font-size:17px;font-weight:900;color:#2d6a4f}
+.lfooter{background:#111;color:#fff;padding:56px 48px 28px}
+.lfooter-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.lfooter h4{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.25);margin-bottom:14px}
+.lfooter p,.lfooter a{font-size:12px;color:rgba(255,255,255,.45);line-height:2;text-decoration:none;display:block}
+.lfooter a:hover{color:#fff}
+.lfooter-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:22px;text-align:center;font-size:11px;color:rgba(255,255,255,.2)}
+.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#f5f0e8,#e8ddd0);padding:20px}
+.login-card{background:#fff;border-radius:24px;padding:44px 38px;width:100%;max-width:430px;box-shadow:0 20px 56px rgba(0,0,0,.09)}
+.login-card h1{font-size:28px;text-align:center;margin-bottom:4px}
+.login-card .sub{text-align:center;color:#999;font-size:13px;margin-bottom:28px}
+.fg{margin-bottom:15px}
+.fg label{display:block;font-size:11px;font-weight:700;color:#555;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:11px 15px;border:1.5px solid #e8e0d4;border-radius:11px;font-size:14px;font-family:inherit;outline:none;transition:.2s;background:#fafaf8}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#2d6a4f;box-shadow:0 0 0 3px rgba(45,106,79,.08);background:#fff}
+.switch{text-align:center;margin-top:18px;font-size:13px;color:#999}
+.switch a{color:#2d6a4f;font-weight:700;cursor:pointer}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:248px;background:linear-gradient(180deg,#1a1a1a,#111);z-index:30;display:flex;flex-direction:column;transition:.3s;overflow:hidden}
+.sidebar.mini{width:60px}.sidebar.mini .stxt{display:none}.sidebar.mini .slabel{display:none}.sidebar.mini .sinfo{display:none}
+.sidebar.mini .menu-item{justify-content:center;padding:12px 0}.sidebar.mini .menu-item i{margin:0}
+.stxt{white-space:nowrap}
+.sbrand{padding:20px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.sbrand h1{font-size:19px;color:#fff;font-weight:900}.sbrand h1 span{color:#e76f51}
+.sidebar-menu{flex:1;padding:6px;overflow-y:auto}
+.slabel{color:rgba(255,255,255,.14);font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:2.5px;padding:14px 11px 5px}
+.menu-item{display:flex;align-items:center;gap:11px;padding:9px 13px;border-radius:9px;color:rgba(255,255,255,.42);cursor:pointer;font-size:12px;font-weight:600;margin-bottom:2px;user-select:none;transition:.2s;position:relative}
+.menu-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
+.menu-item.active{background:linear-gradient(135deg,#e76f51,#f4845f);color:#fff;box-shadow:0 4px 12px rgba(231,111,81,.3)}
+.menu-item i{width:18px;text-align:center;font-size:13px;flex-shrink:0}
+.cart-badge{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:#e76f51;color:#fff;font-size:9px;font-weight:800;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.sidebar.mini .cart-badge{display:none}
+.sidebar-bottom{padding:6px;border-top:1px solid rgba(255,255,255,.05)}
+.sidebar-bottom .menu-item:hover{background:rgba(220,38,38,.12);color:#fca5a5}
+.sinfo{padding:11px 13px;border-top:1px solid rgba(255,255,255,.05)}
+.sinfo .stxt{font-size:10px;color:rgba(255,255,255,.18);display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:25;backdrop-filter:blur(2px)}
+.sidebar-overlay.show{display:block}
+.main{margin-left:248px;min-height:100vh;transition:margin-left .3s;background:#fafaf8}
+.main.wide{margin-left:60px}
+.topbar{background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.04);padding:0 26px;height:58px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:15}
+.toggle{background:none;border:none;font-size:17px;color:#666;cursor:pointer;padding:7px;border-radius:9px;transition:.2s}
+.toggle:hover{background:#f0f0f0}
+.topbar h2{font-size:16px;font-weight:800;flex:1}
+.topbar .right{display:flex;align-items:center;gap:10px}
+.uname{font-size:11px;color:#888;font-weight:600}
+.badge-role{padding:3px 10px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+.badge-admin{background:linear-gradient(135deg,#e76f51,#f4845f);color:#fff}
+.badge-user{background:linear-gradient(135deg,#2d6a4f,#40916c);color:#fff}
+.content{padding:22px 26px 44px}
+.box{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.02)}
+.box h3{font-size:13px;margin-bottom:14px;padding-bottom:11px;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.box h3 span{font-size:11px;color:#bbb;font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#fafaf8;text-align:left;padding:11px 13px;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.7px;white-space:nowrap;border-bottom:2px solid #f0f0f0;font-weight:700}
+td{padding:11px 13px;border-bottom:1px solid #f8f8f6;vertical-align:middle}
+tr:hover td{background:#fcfcfa}
+.badge{padding:4px 11px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block}
+.bg-g{background:#dcfce7;color:#166534}.bg-y{background:#fef9c3;color:#854d0e}.bg-b{background:#dbeafe;color:#1e40af}
+.bg-p{background:#f3e8ff;color:#7c3aed}.bg-r{background:#fee2e2;color:#dc2626}.bg-o{background:#ffedd5;color:#c2410c}.bg-gray{background:#f3f4f6;color:#555}
+.money{font-weight:800;color:#2d6a4f}
+.empty{text-align:center;padding:44px 20px;color:#ccc;font-size:13px}
+.empty i{font-size:34px;display:block;margin-bottom:10px;opacity:.25}
+.u-welcome{position:relative;background:linear-gradient(135deg,#2d6a4f,#40916c,#52b788);color:#fff;border-radius:20px;padding:34px 30px;margin-bottom:26px;overflow:hidden}
+.u-welcome::before{content:'🐾';position:absolute;right:28px;top:50%;transform:translateY(-50%);font-size:110px;opacity:.07}
+.u-welcome h2{font-size:22px;font-weight:900;margin-bottom:5px;position:relative}
+.u-welcome p{opacity:.65;font-size:13px;position:relative}
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.qa-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:16px;padding:22px 18px;text-align:center;cursor:pointer;transition:.3s}
+.qa-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.07)}
+.qa-card .qa-icon{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:21px;margin:0 auto 12px}
+.qa-card h4{font-size:13px;font-weight:800;margin-bottom:3px}.qa-card p{font-size:10px;color:#999}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.section-head h3{font-size:15px;font-weight:900}
+.section-head a{font-size:12px;color:#2d6a4f;font-weight:700;cursor:pointer}
+.apt-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:14px;padding:18px;margin-bottom:11px;display:flex;gap:14px;align-items:start;transition:.2s}
+.apt-card:hover{border-color:rgba(45,106,79,.18);box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.apt-card .ac-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.apt-card .ac-body{flex:1}
+.apt-card .ac-name{font-size:13px;font-weight:800;margin-bottom:3px}
+.apt-card .ac-meta{font-size:11px;color:#999;line-height:1.6}
+.ord-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:14px;padding:18px;margin-bottom:12px;transition:.2s}
+.ord-card:hover{border-color:rgba(45,106,79,.18);box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.ord-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ord-id{font-size:11px;color:#bbb;font-weight:600;font-family:monospace}
+.ord-bottom{display:flex;justify-content:space-between;align-items:end;padding-top:10px;border-top:1px solid #f5f5f5}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:18px}
+.prod-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:16px;overflow:hidden;transition:.3s}
+.prod-card:hover{box-shadow:0 14px 36px rgba(0,0,0,.07);transform:translateY(-4px)}
+.prod-card img{width:100%;height:165px;object-fit:cover;background:#f0f0f0}
+.prod-card .pc-body{padding:16px}
+.prod-card .pc-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#e76f51;margin-bottom:5px}
+.prod-card .pc-name{font-size:14px;font-weight:800;margin-bottom:5px;line-height:1.3;min-height:36px}
+.prod-card .pc-pet{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:700;margin-bottom:8px}
+.pc-pet-kucing{background:#dbeafe;color:#1e40af}.pc-pet-anjing{background:#d8f3dc;color:#2d6a4f}
+.pc-pet-kelinci{background:#fef9c3;color:#854d0e}.pc-pet-hamster{background:#f3e8ff;color:#7c3aed}
+.prod-card .pc-price{font-size:19px;font-weight:900;color:#2d6a4f}
+.prod-card .pc-desc{font-size:11px;color:#999;margin:5px 0 10px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prod-card .pc-add{width:100%;padding:9px;border:1.5px solid #2d6a4f;background:transparent;color:#2d6a4f;font-size:11px;font-weight:700;border-radius:9px;cursor:pointer;font-family:inherit;transition:.2s}
+.prod-card .pc-add:hover{background:#2d6a4f;color:#fff}
+.groom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:14px;margin-bottom:18px}
+.groom-opt{background:#fff;border:2px solid #f0f0f0;border-radius:14px;padding:18px;cursor:pointer;transition:.2s;position:relative}
+.groom-opt:hover{border-color:#2d6a4f}
+.groom-opt.selected{border-color:#2d6a4f;background:#f0fdf4;box-shadow:0 4px 14px rgba(45,106,79,.1)}
+.groom-opt .go-check{position:absolute;top:11px;right:11px;width:22px;height:22px;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:.2s}
+.groom-opt.selected .go-check{background:#2d6a4f;border-color:#2d6a4f;color:#fff}
+.groom-opt .go-name{font-size:14px;font-weight:800;margin-bottom:4px}
+.groom-opt .go-desc{font-size:11px;color:#999;margin-bottom:8px;line-height:1.5}
+.groom-opt .go-price{font-size:17px;font-weight:900;color:#2d6a4f}
+.groom-total{background:linear-gradient(135deg,#2d6a4f,#52b788);color:#fff;padding:18px 22px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;box-shadow:0 8px 22px rgba(45,106,79,.2)}
+.groom-total .gt-label{font-size:12px;opacity:.7}.groom-total .gt-val{font-size:24px;font-weight:900}
+.med-hero{background:linear-gradient(135deg,#1e3a5f,#2d6a4f);color:#fff;border-radius:18px;padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
+.med-hero::after{content:'';position:absolute;right:-36px;top:-36px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+.med-hero h2{font-size:22px;font-weight:900;margin-bottom:7px;position:relative}
+.med-hero p{font-size:13px;opacity:.6;line-height:1.7;max-width:480px;position:relative}
+.vaksin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:14px;margin-bottom:22px}
+.vaksin-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:14px;padding:18px;transition:.2s;border-left:4px solid #2d6a4f}
+.vaksin-card:hover{box-shadow:0 7px 18px rgba(0,0,0,.06);transform:translateY(-2px)}
+.vaksin-card .vc-name{font-size:14px;font-weight:800;margin-bottom:4px}
+.vaksin-card .vc-for{font-size:10px;color:#e76f51;font-weight:700;margin-bottom:7px}
+.vaksin-card .vc-desc{font-size:11px;color:#999;line-height:1.5;margin-bottom:9px}
+.vaksin-card .vc-price{font-size:17px;font-weight:900;color:#2d6a4f}
+.vaksin-card .vc-age{font-size:10px;color:#bbb;margin-top:3px}
+.cart-item{display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5}
+.cart-item:last-child{border:none}
+.cart-item img{width:68px;height:68px;border-radius:12px;object-fit:cover;background:#f0f0f0;flex-shrink:0}
+.cart-item .ci-info{flex:1}
+.cart-item .ci-name{font-size:13px;font-weight:800;margin-bottom:3px}
+.cart-item .ci-meta{font-size:11px;color:#999}
+.cart-item .ci-price{font-size:15px;font-weight:900;color:#2d6a4f;margin-top:3px}
+.cart-item .ci-qty{display:flex;align-items:center;gap:7px}
+.cart-item .ci-qty button{width:30px;height:30px;border-radius:7px;border:1.5px solid #e0d8cc;background:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.cart-item .ci-qty button:hover{border-color:#2d6a4f;color:#2d6a4f}
+.cart-item .ci-qty span{font-size:13px;font-weight:700;min-width:26px;text-align:center}
+.cart-item .ci-del{background:none;border:none;color:#ddd;cursor:pointer;font-size:17px;padding:5px;transition:.2s;border-radius:7px}
+.cart-item .ci-del:hover{color:#dc2626;background:#fee2e2}
+.cart-summary{background:#fafaf8;border-radius:14px;padding:22px;margin-top:18px;border:1px solid rgba(0,0,0,.04)}
+.cart-summary .cs-row{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;color:#666}
+.cart-summary .cs-total{display:flex;justify-content:space-between;font-size:19px;font-weight:900;padding:13px 0 0;border-top:2px solid #e0e0e0;margin-top:7px;color:#2d6a4f}
+.crud-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.crud-form-grid .fg.full{grid-column:1/-1}
+.crud-form-grid .fg label{display:block;font-size:10px;font-weight:700;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.crud-form-grid .fg input,.crud-form-grid .fg select,.crud-form-grid .fg textarea{width:100%;padding:9px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;font-family:inherit;outline:none;transition:.2s;background:#fafaf8}
+.crud-form-grid .fg input:focus,.crud-form-grid .fg select:focus{border-color:#2d6a4f;box-shadow:0 0 0 3px rgba(45,106,79,.08);background:#fff}
+.crud-form-grid .fg textarea{min-height:76px;resize:vertical}
+.admin-search{display:flex;gap:9px;margin-bottom:15px;align-items:center}
+.admin-search input{flex:1;padding:9px 15px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;outline:none;background:#fff;transition:.2s}
+.admin-search input:focus{border-color:#2d6a4f;box-shadow:0 0 0 3px rgba(45,106,79,.08)}
+.admin-search .count{font-size:11px;color:#bbb;white-space:nowrap}
+.action-btns{display:flex;gap:5px;flex-wrap:wrap}
+.action-btns button{padding:5px 9px;border:none;border-radius:6px;cursor:pointer;font-size:11px;transition:.15s}
+.ab-edit{background:#dbeafe;color:#1e40af}.ab-edit:hover{background:#bfdbfe}
+.ab-del{background:#fee2e2;color:#dc2626}.ab-del:hover{background:#fecaca}
+.ab-wa{background:#dcfce7;color:#166534}.ab-wa:hover{background:#bbf7d0}
+.profile-card{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:18px;padding:30px;max-width:500px}
+.profile-avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#2d6a4f,#52b788);display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;margin-bottom:18px}
+.profile-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #f8f8f6;font-size:13px}
+.profile-row:last-child{border:none}
+.profile-row .label{color:#999;font-weight:600}
+.slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}
+.slot-btn{padding:11px 7px;border:2px solid #e8e0d4;border-radius:11px;background:#fff;cursor:pointer;text-align:center;transition:.2s;font-family:inherit}
+.slot-btn:hover{border-color:#2d6a4f}
+.slot-btn.selected{border-color:#2d6a4f;background:#f0fdf4;color:#2d6a4f}
+.slot-btn.full{opacity:.35;cursor:not-allowed;background:#fafaf8}
+.slot-btn .slot-time{font-size:14px;font-weight:800}
+.slot-btn .slot-avail{font-size:10px;color:#999;margin-top:2px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:80;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(2px)}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 56px rgba(0,0,0,.18);animation:mIn .22s ease}
+@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{padding:18px 22px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.modal-head h3{font-size:15px;font-weight:900}
+.modal-head button{background:none;border:none;font-size:19px;color:#ccc;cursor:pointer;padding:4px 7px;border-radius:7px;transition:.15s}
+.modal-head button:hover{color:#333;background:#f5f5f5}
+.modal-body{padding:22px}
+.modal-foot{padding:14px 22px;border-top:1px solid #f0f0f0;display:flex;gap:9px;justify-content:flex-end}
+.wa-preview{background:#e1f5e9;border:1px solid #a5d6a7;border-radius:13px;padding:14px;margin-bottom:14px}
+.wa-preview .wa-header{display:flex;align-items:center;gap:9px;margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid #c8e6c9}
+.wa-preview .wa-avatar{width:34px;height:34px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.wa-preview .wa-name{font-size:12px;font-weight:700;color:#1a1a1a}
+.wa-preview .wa-to{font-size:10px;color:#888}
+.wa-preview .wa-bubble{background:#fff;border-radius:0 11px 11px 11px;padding:11px 14px;font-size:12px;color:#222;line-height:1.7;white-space:pre-wrap;box-shadow:0 1px 2px rgba(0,0,0,.05);max-height:260px;overflow-y:auto}
+.wa-preview .wa-time{text-align:right;font-size:9px;color:#999;margin-top:5px}
+.wa-phone-input{display:flex;gap:7px;margin-bottom:12px;align-items:end}
+.wa-phone-input .fg{flex:1;margin:0}
+.wa-phone-input label{display:block;font-size:10px;font-weight:700;color:#888;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.wa-phone-input input{width:100%;padding:9px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;outline:none;background:#fafaf8;transition:.2s}
+.wa-phone-input input:focus{border-color:#2d6a4f;box-shadow:0 0 0 3px rgba(45,106,79,.08);background:#fff}
+.checkout-grid{display:grid;grid-template-columns:1fr 350px;gap:18px}
+#coMap{width:100%;height:260px;border-radius:11px;border:1.5px solid #e8e0d4}
+.msg{position:fixed;top:18px;right:18px;padding:13px 22px;border-radius:13px;color:#fff;font-size:13px;font-weight:700;z-index:999;animation:tIn .25s ease,tOut .25s ease 2.2s forwards;box-shadow:0 8px 22px rgba(0,0,0,.14)}
+.msg-ok{background:linear-gradient(135deg,#16a34a,#22c55e)}.msg-err{background:linear-gradient(135deg,#dc2626,#ef4444)}
+@keyframes tIn{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tOut{from{opacity:1}to{opacity:0;transform:translateY(-18px)}}
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.confirm-overlay.show{display:flex}
+.confirm-box{background:#fff;border-radius:18px;padding:30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 56px rgba(0,0,0,.18);animation:mIn .22s ease}
+.confirm-box h3{font-size:17px;font-weight:900;margin-bottom:7px}
+.confirm-box p{font-size:13px;color:#888;margin-bottom:22px}
+.confirm-box .btns{display:flex;gap:9px;justify-content:center}
+.stat-mini{background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:13px;padding:18px;text-align:center;cursor:pointer;transition:.2s}
+.stat-mini:hover{border-color:#2d6a4f;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+
+/* KOMPONEN BARU: Timeline Grooming */
+.timeline-grid{display:flex;gap:20px;margin-top:20px;overflow-x:auto;padding-bottom:20px}
+.time-step{min-width:280px;background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.04);box-shadow:0 4px 12px rgba(0,0,0,.02);position:relative}
+.time-step .step-no{position:absolute;top:-15px;left:24px;width:30px;height:30px;background:#e76f51;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;box-shadow:0 4px 10px rgba(231,111,81,.3)}
+.time-step h3{font-size:16px;font-weight:800;margin-bottom:8px;color:#2d6a4f;margin-top:10px}
+.time-step p{font-size:12px;color:#777;line-height:1.6}
+
+/* KOMPONEN BARU: MODAL BCA */
+.bca-box{background:#f0fdf4;border:2px dashed #2d6a4f;border-radius:12px;padding:20px;text-align:center;margin:15px 0}
+.bca-box h4{color:#1a1a1a;font-size:18px;margin-bottom:5px;font-weight:900}
+.bca-box p{font-size:24px;font-weight:900;color:#2d6a4f;letter-spacing:2px;font-family:monospace;margin:10px 0}
+.countdown{font-size:14px;color:#dc2626;font-weight:800;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+
+@media(max-width:768px){
+  .lnav-links{display:none}.lnav .btn-login{display:none}.mob-menu{display:block!important}
+  .hero-content h1{font-size:32px}
+  .section{padding:55px 18px}.section h2{font-size:24px}
+  .lfooter-grid{grid-template-columns:1fr 1fr}
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.sidebar.mini{transform:translateX(-100%)}
+  .main,.main.wide{margin-left:0}
+  .quick-actions{grid-template-columns:repeat(2,1fr)}
+  .svc-grid,.doc-grid,.pet-grid,.prod-grid,.groom-grid,.vaksin-grid,.lp-grid{grid-template-columns:1fr}
+  .pet-grid{grid-template-columns:repeat(2,1fr)}
+  .crud-form-grid{grid-template-columns:1fr}
+  .checkout-grid{grid-template-columns:1fr}
+  #coMap{height:200px}
+  .slot-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:480px){.hero-content{padding:0 20px}.hero-content h1{font-size:26px}.slot-grid{grid-template-columns:repeat(2,1fr)}.action-btns{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing">
+  <nav class="lnav" id="lnav">
+    <div class="brand" onclick="location.reload()">Paw<span>Care</span></div>
+    <div class="lnav-links">
+      <a href="#layanan">Layanan</a><a href="#grooming-spa">Grooming Spa</a><a href="#tim-dokter">Dokter</a><a href="#produk">Produk</a>
+      <button class="btn-login" id="btnLoginNav">Masuk</button>
+      <button class="btn-login alt" id="btnRegNav">Daftar</button>
+    </div>
+    <button class="mob-menu" id="btnMob"><i class="fas fa-bars"></i></button>
+  </nav>
+  <div id="mobNav" class="sidebar-overlay">
+    <div style="background:#fff;width:270px;height:100%;padding:22px;margin-left:auto;display:flex;flex-direction:column;gap:9px">
+      <a href="#layanan" class="mob-link" style="font-size:14px;font-weight:600;color:#333;text-decoration:none;padding:9px 0">Layanan</a>
+      <a href="#grooming-spa" class="mob-link" style="font-size:14px;font-weight:600;color:#333;text-decoration:none;padding:9px 0">Grooming Spa</a>
+      <a href="#tim-dokter" class="mob-link" style="font-size:14px;font-weight:600;color:#333;text-decoration:none;padding:9px 0">Dokter</a>
+      <a href="#produk" class="mob-link" style="font-size:14px;font-weight:600;color:#333;text-decoration:none;padding:9px 0">Produk</a>
+      <hr style="border:none;border-top:1px solid #eee;margin:5px 0">
+      <button class="btn btn-g" style="width:100%" id="btnLoginMob">Masuk</button>
+      <button class="btn btn-out" style="width:100%" id="btnRegMob">Daftar</button>
+    </div>
+  </div>
+  <section class="hero"><div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1>Perawatan Hewan<br>Profesional <span>Berkualitas</span></h1>
+      <p>Kami menyediakan layanan grooming spa premium, dokter hewan, vaksinasi, sterilisasi, dan produk kebutuhan hewan peliharaan Anda.</p>
+      <div class="hero-btns">
+        <button class="btn btn-g" onclick="msg('Silakan login terlebih dahulu untuk mendaftar layanan', false); showAuth('login');"><i class="fas fa-paw"></i> Booking Sekarang</button>
+        <button class="btn btn-out" id="btnHeroScroll"><i class="fas fa-arrow-down"></i> Lihat Layanan</button>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="layanan">
+    <div class="section-tag">Layanan Kami</div><h2>Apa yang Kami Tawarkan</h2><p class="desc">Layanan lengkap untuk kebutuhan hewan peliharaan Anda</p>
+    <div class="svc-grid">
+      <div class="svc-card"><div class="ico" style="background:#dbeafe;color:#1e40af"><i class="fas fa-cut"></i></div><h3>Grooming Spa</h3><p>Perawatan eksklusif, potong rambut, bersihkan telinga dan kuku</p></div>
+      <div class="svc-card"><div class="ico" style="background:#d8f3dc;color:#2d6a4f"><i class="fas fa-stethoscope"></i></div><h3>Dokter Hewan</h3><p>Konsultasi dan pemeriksaan oleh dokter berpengalaman</p></div>
+      <div class="svc-card"><div class="ico" style="background:#fef9c3;color:#854d0e"><i class="fas fa-syringe"></i></div><h3>Vaksinasi</h3><p>Vaksinasi lengkap sesuai standar medis</p></div>
+      <div class="svc-card"><div class="ico" style="background:#f3e8ff;color:#7c3aed"><i class="fas fa-scissors"></i></div><h3>Sterilisasi</h3><p>Operasi sterilisasi aman oleh dokter profesional</p></div>
+      <div class="svc-card"><div class="ico" style="background:#ffedd5;color:#c2410c"><i class="fas fa-store"></i></div><h3>Produk Hewan</h3><p>Makanan, vitamin, aksesoris berkualitas</p></div>
+      <div class="svc-card"><div class="ico" style="background:#cffafe;color:#0e7490"><i class="fas fa-calendar-check"></i></div><h3>Booking Online</h3><p>Appointment online dengan konfirmasi otomatis</p></div>
+    </div>
+  </section>
+
+  <!-- BAGIAN BARU: Grooming Spa -->
+  <section class="section" id="grooming-spa" style="background:#fff">
+    <div class="section-tag">PawCare Spa</div><h2>Proses Grooming Premium</h2>
+    <p class="desc">Perawatan eksklusif menggunakan produk khusus untuk hasil bulu lembut, sehat, dan bebas kutu.</p>
+    <div class="timeline-grid">
+      <div class="time-step">
+        <div class="step-no">1</div>
+        <i class="fas fa-bath" style="font-size:24px;color:#2d6a4f"></i>
+        <h3>Deep Cleansing Bath</h3>
+        <p>Mandi relaksasi menggunakan air hangat dan shampoo hypoallergenic. Membersihkan minyak berlebih dan debu sampai ke akar bulu.</p>
+      </div>
+      <div class="time-step">
+        <div class="step-no">2</div>
+        <i class="fas fa-cut" style="font-size:24px;color:#2d6a4f"></i>
+        <h3>Paws & Ears Care</h3>
+        <p>Pemotongan dan kikir kuku agar tidak tajam. Pembersihan telinga menggunakan cairan khusus untuk mencegah infeksi dan tungau.</p>
+      </div>
+      <div class="time-step">
+        <div class="step-no">3</div>
+        <i class="fas fa-wind" style="font-size:24px;color:#2d6a4f"></i>
+        <h3>Fluff Dry & Styling</h3>
+        <p>Pengeringan menggunakan alat khusus (blow dry) dilanjutkan penyisiran rapi dan pemberian parfum hewan yang aman.</p>
+      </div>
+    </div>
+    <button class="btn btn-g" style="margin-top:15px;padding:12px 30px" onclick="msg('Silakan login terlebih dahulu untuk booking Grooming Spa', false); showAuth('login');"><i class="fas fa-calendar-alt"></i> Booking Grooming via Dashboard</button>
+  </section>
+
+  <section class="section" id="tim-dokter" style="background:#f5f5f2">
+    <div class="section-tag">Tim Dokter Hewan</div><h2>Dokter Terpercaya</h2>
+    <div class="doc-grid" id="landingDocs"><div class="empty"><i class="fas fa-user-md"></i>Memuat...</div></div>
+  </section>
+  <section class="section" id="produk">
+    <div class="section-tag">Produk Kami</div><h2>Kebutuhan Hewan Peliharaan</h2>
+    <div id="landingProducts"></div>
+  </section>
+  <section class="section" id="kontak" style="background:#f5f5f2">
+    <div class="section-tag">Hubungi Kami</div><h2>Lokasi Petshop</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:820px">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:13px"><i class="fas fa-map-marker-alt" style="font-size:20px;color:#e76f51;width:26px;text-align:center"></i><div><div style="font-size:13px;font-weight:700">Alamat</div><div style="font-size:12px;color:#999">Jl. Raya Petshop No. 45, Jakarta Selatan</div></div></div>
+        <div style="display:flex;align-items:center;gap:13px"><i class="fas fa-phone" style="font-size:20px;color:#2d6a4f;width:26px;text-align:center"></i><div><div style="font-size:13px;font-weight:700">Telepon</div><div style="font-size:12px;color:#999">(021) 1234-5678</div></div></div>
+        <div style="display:flex;align-items:center;gap:13px"><i class="fas fa-clock" style="font-size:20px;color:#f59e0b;width:26px;text-align:center"></i><div><div style="font-size:13px;font-weight:700">Jam Operasional</div><div style="font-size:12px;color:#999">Senin - Sabtu: 08:00 - 21:00 WIB</div></div></div>
+      </div>
+      <div style="border-radius:16px;overflow:hidden;min-height:200px;background:#e8ddd0;display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:#8B7355;font-size:12px"><i class="fas fa-map-marked-alt" style="font-size:32px;display:block;margin-bottom:8px;opacity:.35"></i>Google Maps</div></div>
+    </div>
+  </section>
+  <footer class="lfooter">
+    <div class="lfooter-grid">
+      <div><h4>PawCare</h4><p>Tempat terbaik untuk perawatan hewan peliharaan Anda.</p></div>
+      <div><h4>Layanan</h4><a href="#">Grooming</a><a href="#">Dokter Hewan</a><a href="#">Vaksinasi</a><a href="#">Sterilisasi</a></div>
+      <div><h4>Jam Buka</h4><p>Senin - Minggu<br>08:00 - 22:00 WIB</p></div>
+      <div><h4>Kontak</h4><p>(021) 1234-5678<br>info@pawcare.id</p></div>
+    </div>
+    <div class="lfooter-bottom">&copy; 2026 PawCare Petshop. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- AUTH -->
+<div class="login-page hide" id="authPage">
+  <div class="login-card">
+    <h1>Paw<span>Care</span></h1>
+    <p class="sub" id="authSub">Masuk ke akun Anda</p>
+    <div id="fLogin">
+      <div class="fg"><label>Email</label><input id="lEmail" type="email" placeholder="contoh@email.com"></div>
+      <div class="fg"><label>Password</label><input id="lPass" type="password" placeholder="Masukkan password"></div>
+      <button class="btn btn-g" style="width:100%" id="btnDoLogin">Masuk</button>
+      <div class="switch">Belum punya akun? <a id="linkToReg">Daftar</a></div>
+    </div>
+    <div id="fReg" class="hide">
+      <div class="fg"><label>Nama Lengkap</label><input id="rName" placeholder="Nama lengkap"></div>
+      <div class="fg"><label>No. HP</label><input id="rPhone" placeholder="08xxx"></div>
+      <div class="fg"><label>Email</label><input id="rEmail" type="email" placeholder="contoh@email.com"></div>
+      <div class="fg"><label>Password</label><input id="rPass" type="password" placeholder="Buat password"></div>
+      <button class="btn btn-g" style="width:100%" id="btnDoReg">Daftar</button>
+      <div class="switch">Sudah punya akun? <a id="linkToLogin">Masuk</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="pageAdmin" class="hide">
+  <div class="sidebar-overlay" id="aOv"></div>
+  <aside class="sidebar" id="aSB">
+    <div class="sbrand"><h1>Paw<span>Care</span></h1></div>
+    <div class="sidebar-menu" id="aMenu"></div>
+    <div class="sinfo"><div class="stxt"><i class="fas fa-phone"></i><span>(021) 1234-5678</span></div></div>
+    <div class="sidebar-bottom"><div class="menu-item" id="aLogout"><i class="fas fa-sign-out-alt"></i><span class="stxt">Log Out</span></div></div>
+  </aside>
+  <div class="main" id="aMain">
+    <div class="topbar">
+      <button class="toggle" id="aToggle"><i class="fas fa-bars"></i></button>
+      <h2 id="aTtl">Dashboard</h2>
+      <div class="right"><span class="uname" id="aUn"></span><span class="badge-role badge-admin">Admin</span><button class="btn btn-out btn-sm" id="aLogoutTop">Logout</button></div>
+    </div>
+    <div class="content" id="aC"></div>
+  </div>
+</div>
+
+<!-- USER -->
+<div id="pageUser" class="hide">
+  <div class="sidebar-overlay" id="uOv"></div>
+  <aside class="sidebar" id="uSB">
+    <div class="sbrand"><h1>Paw<span>Care</span></h1></div>
+    <div class="sidebar-menu" id="uMenu"></div>
+    <div class="sinfo"><div class="stxt"><i class="fas fa-phone"></i><span>(021) 1234-5678</span></div></div>
+    <div class="sidebar-bottom"><div class="menu-item" id="uLogout"><i class="fas fa-sign-out-alt"></i><span class="stxt">Log Out</span></div></div>
+  </aside>
+  <div class="main" id="uMain">
+    <div class="topbar">
+      <button class="toggle" id="uToggle"><i class="fas fa-bars"></i></button>
+      <h2 id="uTtl">Dashboard</h2>
+      <div class="right"><span class="uname" id="uUn"></span><span class="badge-role badge-user">User</span><button class="btn btn-out btn-sm" id="uLogoutTop">Logout</button></div>
+    </div>
+    <div class="content" id="uC"></div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="crudModal">
+  <div class="modal"><div class="modal-head"><h3 id="crudTitle">Tambah Data</h3><button id="crudClose">&times;</button></div>
+  <div class="modal-body"><div id="crudFormArea" class="crud-form-grid"></div></div>
+  <div class="modal-foot"><button class="btn btn-out btn-sm" id="crudCancel">Batal</button><button class="btn btn-g btn-sm" style="width:auto;padding:9px 26px" id="crudSaveBtn"><i class="fas fa-check"></i> Simpan</button></div></div>
+</div>
+
+<div class="modal-overlay" id="waModal">
+  <div class="modal" style="max-width:500px"><div class="modal-head"><h3><i class="fab fa-whatsapp" style="color:#25D366;margin-right:7px"></i>Kirim WhatsApp</h3><button id="waClose">&times;</button></div>
+  <div class="modal-body">
+    <div class="wa-phone-input"><div class="fg"><label>Nomor HP</label><input type="tel" id="waPhone" placeholder="081234567890"></div></div>
+    <div class="wa-preview"><div class="wa-header"><div class="wa-avatar"><i class="fab fa-whatsapp"></i></div><div><div class="wa-name">PawCare Petshop</div><div class="wa-to" id="waToLabel">Ke: -</div></div></div><div class="wa-bubble" id="waBubble">Pesan...</div></div>
+    <div class="fg"><label>Edit Pesan</label><textarea id="waMessage" style="width:100%;padding:10px 14px;border:1.5px solid #e8e0d4;border-radius:11px;font-size:12px;font-family:inherit;outline:none;min-height:140px;resize:vertical;background:#fafaf8;line-height:1.6" oninput="document.getElementById('waBubble').textContent=this.value"></textarea></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-out btn-sm" id="waCancelBtn">Batal</button><button class="btn btn-wa btn-sm" style="padding:9px 22px" id="waSendBtn"><i class="fab fa-whatsapp"></i> Kirim</button></div></div>
+</div>
+
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal" style="max-width:880px"><div class="modal-head"><h3><i class="fas fa-shopping-bag" style="color:#2d6a4f;margin-right:7px"></i>Checkout</h3><button id="coClose">&times;</button></div>
+  <div class="modal-body">
+    <div class="checkout-grid">
+      <div>
+        <div class="fg"><label>Pembayaran</label><select id="coPay" style="width:100%;padding:10px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;outline:none;background:#fafaf8"><option>Transfer Bank BCA</option><option>Transfer Bank Mandiri</option><option>GoPay</option><option>OVO</option><option>Dana</option><option>Bayar di Tempat</option></select></div>
+        <div class="fg" style="margin-top:12px"><label>Pengiriman</label><select id="coDelivery" style="width:100%;padding:10px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;outline:none;background:#fafaf8"><option value="pickup">Ambil Sendiri</option><option value="delivery">Delivery</option></select></div>
+        <div id="coDeliveryArea" class="hide" style="margin-top:12px"><div class="fg"><label>Alamat</label><textarea id="coAddress" style="width:100%;padding:10px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:12px;outline:none;height:70px;resize:vertical;background:#fafaf8" placeholder="Alamat pengiriman..."></textarea></div></div>
+        <div class="fg" style="margin-top:12px"><label>Catatan</label><textarea id="coNotes" style="width:100%;padding:10px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:12px;outline:none;height:55px;resize:vertical;background:#fafaf8" placeholder="Opsional..."></textarea></div>
+      </div>
+      <div>
+        <div style="background:#fafaf8;border-radius:13px;padding:18px;border:1px solid rgba(0,0,0,.04)">
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;color:#666"><span>Item</span><span id="coItems">0</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:900;color:#2d6a4f;margin-bottom:7px"><span>Subtotal</span><span id="coSubtotal">Rp 0</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin-top:10px;padding-top:12px;border-top:2px solid #e0e0e0;color:#1a1a1a"><span>Total</span><span id="coTotal">Rp 0</span></div>
+        </div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:9px">
+          <button class="btn btn-g" id="coConfirm" style="padding:13px"><i class="fas fa-check-circle"></i> Konfirmasi Pesanan</button>
+          <button class="btn btn-out" id="coCancelBtn" style="width:100%">Batal</button>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="coLat"><input type="hidden" id="coLng"><input type="hidden" id="coShippingCost" value="0">
+  </div></div>
+</div>
+
+<!-- MODAL BARU: Pembayaran BCA -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal" style="max-width:400px;text-align:center">
+    <div class="modal-body" style="padding:40px 20px">
+      <i class="fas fa-check-circle" style="font-size:50px;color:#16a34a;margin-bottom:15px"></i>
+      <h3 style="font-size:18px;font-weight:900">Pesanan Berhasil Dibuat!</h3>
+      
+      <div class="bca-box">
+        <div style="font-size:12px;color:#555">Transfer Total Sebesar:</div>
+        <h4 id="paymentTotal" style="color:#2d6a4f;font-size:22px;margin:8px 0">Rp 0</h4>
+        <div style="font-size:12px;color:#555">Ke Rekening Bank BCA:</div>
+        <p>1234567890</p>
+        <div style="font-size:13px;font-weight:700">A.N PawCare Petshop</div>
+      </div>
+      
+      <div class="countdown"><i class="fas fa-clock"></i> Batas Waktu Bayar: <span id="timerBCA">24:00:00</span></div>
+      
+      <p style="font-size:12px;color:#666;margin:20px 0">Harap lakukan transfer sesuai total belanja. Admin akan memverifikasi pesanan Anda secara otomatis.</p>
+      
+      <button class="btn btn-g" style="width:100%" onclick="closePaymentModal()">Selesai & Ke Pesanan Saya</button>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirmDlg">
+  <div class="confirm-box"><h3 id="confirmTitle">Konfirmasi</h3><p id="confirmMsg">Yakin?</p>
+  <div class="btns"><button class="btn btn-out btn-sm" id="confirmNo">Batal</button><button class="btn btn-danger btn-sm" id="confirmYes">Hapus</button></div></div>
+</div>
+
+<script>
+/* ========== STATE ========== */
+var me = null;
+var aCols = [];
+var aCurCol = null;
+var crudMode = 'create';
+var crudEditId = null;
+var crudCollection = null;
+var selectedGroom = [];
+var confirmCallback = null;
+var waSendCallback = null;
+var coMap = null;
+var coMarker = null;
+
+var numFields = ['price','harga','cost','biaya','total','total_price','subtotal','stock','stok','qty','jumlah','duration','berat','weight','discount','rating','surcharge','lat','lng','shipping_cost'];
+
+function rp(n) { return 'Rp ' + Number(n || 0).toLocaleString('id-ID'); }
+function gv(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+function sv(id, v) { var el = document.getElementById(id); if (el) el.value = v; }
+function esc(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function truncate(s, n) { return s && s.length > n ? s.substring(0, n) + '...' : (s || ''); }
+
+var petImages = { Kucing: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=300', Anjing: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300', Kelinci: 'https://images.unsplash.com/photo-1585110396000-b9a8a3a25b26?w=300', Hamster: 'https://images.unsplash.com/photo-1425082661507-d64d904e95a8?w=300' };
+var petColor = { Kucing: 'pc-pet-kucing', Anjing: 'pc-pet-anjing', Kelinci: 'pc-pet-kelinci', Hamster: 'pc-pet-hamster' };
+
+var vaksinList = [
+  { name: 'Vaksin Rabies', for: 'Anjing & Kucing', price: 150000, desc: 'Wajib. Booster setahun sekali.', age: '3 bulan+' },
+  { name: 'Vaksin Parvovirus', for: 'Anjing', price: 200000, desc: 'Melindungi dari virus parvo.', age: '6-8 minggu' },
+  { name: 'Vaksin Distemper', for: 'Anjing', price: 200000, desc: 'Penyakit virus mematikan.', age: '6-8 minggu' },
+  { name: 'Vaksin FVRCP', for: 'Kucing', price: 250000, desc: 'Paket 3-in-1 untuk kucing.', age: '6-8 minggu' },
+  { name: 'Vaksin Feline Leukemia', for: 'Kucing', price: 300000, desc: 'Melindungi dari FeLV.', age: '8-12 minggu' },
+  { name: 'Paket Vaksin Lengkap Anjing', for: 'Anjing', price: 750000, desc: 'Rabies+Parvo+Distemper+Lepto (hemat 30%).', age: '6-8 minggu' },
+  { name: 'Paket Vaksin Lengkap Kucing', for: 'Kucing', price: 600000, desc: 'Rabies+FVRCP+FeLV (hemat 25%).', age: '6-8 minggu' }
+];
+
+/* ========== CART ========== */
+var cart = [];
+try { cart = JSON.parse(localStorage.getItem('pawcart') || '[]'); } catch (e) { cart = []; }
+function saveCart() { localStorage.setItem('pawcart', JSON.stringify(cart)); }
+function updateCartBadge() { var b = document.getElementById('cartBadge'); if (!b) return; var c = cart.reduce(function (s, x) { return s + (x.qty || 1); }, 0); b.textContent = c; b.style.display = c > 0 ? 'flex' : 'none'; }
+function addToCart(p) { var ex = null; for (var i = 0; i < cart.length; i++) { if (cart[i]._id === p._id) { ex = cart[i]; break; } } if (ex) { ex.qty = (ex.qty || 1) + 1; } else { cart.push({ _id: p._id, name: p.name, price: Number(p.price) || 0, petType: p.petType, category: p.category || '', image: p.image || '', qty: 1 }); } saveCart(); updateCartBadge(); msg('Ditambahkan ke keranjang!'); }
+function removeCart(id) { cart = cart.filter(function (x) { return x._id !== id; }); saveCart(); updateCartBadge(); uGo('cart'); }
+function changeQty(id, q) { for (var i = 0; i < cart.length; i++) { if (cart[i]._id === id) { cart[i].qty = Math.max(1, q); break; } } saveCart(); }
+function cartTotal() { return cart.reduce(function (s, c) { return s + (Number(c.price) || 0) * (c.qty || 1); }, 0); }
+
+/* ========== UTILS ========== */
+function msg(t, ok) { if (ok === undefined) ok = true; var d = document.createElement('div'); d.className = 'msg ' + (ok ? 'msg-ok' : 'msg-err'); d.textContent = t; document.body.appendChild(d); setTimeout(function () { if (d.parentNode) d.parentNode.removeChild(d); }, 2600); }
+function api(u, o) { if (!o) o = {}; var h = { 'Content-Type': 'application/json' }; if (me) h['x-email'] = me.email; if (me && me.role === 'admin') h['x-role'] = 'admin'; return fetch(u, { method: o.method || 'GET', headers: h, body: o.body || null }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Error'); return j; }); }); }
+function showConfirm(title, message, cb) { document.getElementById('confirmTitle').textContent = title; document.getElementById('confirmMsg').textContent = message; confirmCallback = cb; document.getElementById('confirmDlg').classList.add('show'); }
+function closeSB(sb, ov) { document.getElementById(sb).classList.remove('open'); document.getElementById(sb).classList.remove('mini'); document.getElementById(ov).classList.remove('show'); }
+function statusBadge(s) { var m = { 'Disetujui': 'bg-g', 'Pending': 'bg-y', 'Ditolak': 'bg-r', 'Selesai': 'bg-g', 'Batal': 'bg-r', 'Menunggu Pembayaran': 'bg-y', 'Menunggu Verifikasi': 'bg-y', 'Diproses': 'bg-b', 'Dikirim': 'bg-b', 'Diterima': 'bg-g', 'Aktif': 'bg-g', 'Nonaktif': 'bg-gray' }; return '<span class="badge ' + (m[s] || 'bg-gray') + '">' + esc(s) + '</span>'; }
+
+/* ========== WHATSAPP ADMIN ========== */
+function openWAModal(phone, message, cb) { sv('waPhone', phone || ''); sv('waMessage', message || ''); document.getElementById('waBubble').textContent = message || ''; document.getElementById('waToLabel').textContent = 'Ke: ' + (phone || '-'); waSendCallback = cb || null; document.getElementById('waModal').classList.add('show'); }
+function doSendWA() { var phone = gv('waPhone').replace(/[^0-9+]/g, ''); var message = gv('waMessage'); if (!phone) { msg('Nomor HP wajib', false); return; } if (!message.trim()) { msg('Pesan kosong', false); return; } var btn = document.getElementById('waSendBtn'); btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; api('/api/admin/whatsapp', { method: 'POST', body: JSON.stringify({ phone: phone, message: message }) }).then(function () { msg('WA terkirim ke ' + phone); document.getElementById('waModal').classList.remove('show'); if (waSendCallback) waSendCallback(); }).catch(function (e) { msg('Gagal: ' + e.message, false); }).finally(function () { btn.innerHTML = '<i class="fab fa-whatsapp"></i> Kirim'; btn.disabled = false; }); }
+function sendWAAppointment(aptId) { var btn = event.currentTarget; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; api('/api/admin/whatsapp/bulk-appointment', { method: 'POST', body: JSON.stringify({ appointment_id: aptId }) }).then(function (res) { openWAModal(res.phone, res.message); }).catch(function (e) { msg('Gagal: ' + e.message, false); }).finally(function () { btn.innerHTML = '<i class="fab fa-whatsapp"></i>'; btn.disabled = false; }); }
+function sendWAOrderDelivery(orderId, status) { var btn = event.currentTarget; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; api('/api/admin/whatsapp/order-delivery', { method: 'POST', body: JSON.stringify({ order_id: orderId, status: status }) }).then(function (res) { openWAModal(res.phone, res.message); }).catch(function (e) { msg('Gagal: ' + e.message, false); }).finally(function () { btn.innerHTML = '<i class="fab fa-whatsapp"></i>'; btn.disabled = false; }); }
+
+/* ========== AUTH ========== */
+function showAuth(type) { document.getElementById('landing').classList.add('hide'); document.getElementById('authPage').classList.remove('hide'); document.getElementById('fLogin').classList.toggle('hide', type !== 'login'); document.getElementById('fReg').classList.toggle('hide', type === 'login'); document.getElementById('authSub').textContent = type === 'login' ? 'Masuk ke akun Anda' : 'Buat akun baru'; }
+function doLogin() { api('/api/login', { method: 'POST', body: JSON.stringify({ email: gv('lEmail'), password: gv('lPass') }) }).then(function (u) { me = u; localStorage.setItem('pc', JSON.stringify(me)); showDash(); msg('Selamat datang, ' + me.name + '!'); }).catch(function (e) { msg(e.message, false); }); }
+function doReg() { api('/api/register', { method: 'POST', body: JSON.stringify({ name: gv('rName'), phone: gv('rPhone'), email: gv('rEmail'), password: gv('rPass') }) }).then(function (u) { me = u; localStorage.setItem('pc', JSON.stringify(me)); showDash(); msg('Pendaftaran berhasil!'); }).catch(function (e) { msg(e.message, false); }); }
+function doLogout() { me = null; localStorage.removeItem('pc'); document.getElementById('landing').classList.remove('hide'); document.getElementById('authPage').classList.add('hide'); document.getElementById('pageAdmin').classList.add('hide'); document.getElementById('pageUser').classList.add('hide'); }
+function showDash() { document.getElementById('landing').classList.add('hide'); document.getElementById('authPage').classList.add('hide'); document.getElementById('pageAdmin').classList.add('hide'); document.getElementById('pageUser').classList.add('hide'); if (me.role === 'admin') { document.getElementById('pageAdmin').classList.remove('hide'); document.getElementById('aUn').textContent = me.name; loadAdminMenu(); aGo('dashboard'); } else { document.getElementById('pageUser').classList.remove('hide'); document.getElementById('uUn').textContent = me.name; buildUserMenu(); updateCartBadge(); uGo('home'); } }
+
+/* ========== ADMIN MENU & NAV ========== */
+var colIcons = { services: 'fa-cut', products: 'fa-box', payments: 'fa-money-bill-wave', appointments: 'fa-calendar-check', orders: 'fa-shopping-bag', vaksins: 'fa-syringe' };
+function loadAdminMenu() { 
+  api('/api/collections').then(function (cols) { 
+    // Sembunyikan 'users', 'employees', dan 'doctors' dari List CRUD
+    aCols = cols.filter(function (c) { return c !== 'users' && c !== 'employees' && c !== 'doctors'; }); 
+    var m = document.getElementById('aMenu'); 
+    var h = '<div class="slabel stxt">Menu</div><div class="menu-item active" data-col="dashboard"><i class="fas fa-tachometer-alt"></i><span class="stxt">Dashboard</span></div><div class="slabel stxt">Data</div>'; 
+    for (var i = 0; i < aCols.length; i++) { 
+      var c = aCols[i]; 
+      var lb = c.replace(/_/g, ' ').replace(/\b\w/g, function (l) { return l.toUpperCase(); }); 
+      h += '<div class="menu-item" data-col="' + c + '"><i class="fas ' + (colIcons[c] || 'fa-database') + '"></i><span class="stxt">' + lb + '</span></div>'; 
+    } 
+    h += '<div class="slabel stxt">Laporan & Dokter</div>';
+    h += '<div class="menu-item" data-col="stats"><i class="fas fa-chart-pie"></i><span class="stxt">Statistik & Laporan</span></div>';
+    h += '<div class="slabel stxt">System</div><div class="menu-item" data-col="users"><i class="fas fa-users-cog"></i><span class="stxt">Users</span></div>'; 
+    m.innerHTML = h; 
+    m.querySelectorAll('.menu-item').forEach(function (el) { el.addEventListener('click', function () { aGo(this.dataset.col, this); }); }); 
+  }); 
+}
+
+function aGo(col, btn) { 
+  if (btn) { document.querySelectorAll('#aMenu .menu-item').forEach(function (b) { b.classList.remove('active'); }); btn.classList.add('active'); } 
+  closeSB('aSB', 'aOv'); aCurCol = col; 
+  var lb = col === 'dashboard' ? 'Dashboard' : col === 'users' ? 'Kelola Users' : col === 'stats' ? 'Statistik Laporan' : col.replace(/_/g, ' ').replace(/\b\w/g, function (l) { return l.toUpperCase(); }); 
+  document.getElementById('aTtl').textContent = lb; 
+  if (col === 'dashboard') { renderAdminDashboard(); return; } 
+  if (col === 'users') { renderAdminUsers(); return; } 
+  if (col === 'appointments') { renderAdminAppointments(); return; } 
+  if (col === 'orders') { renderAdminOrders(); return; } 
+  if (col === 'stats') { renderAdminStats(); return; } 
+  renderAdminCRUD(col); 
+}
+
+/* ========== ADMIN DASHBOARD ========== */
+function renderAdminDashboard() { 
+  var promises = []; for (var i = 0; i < aCols.length; i++) promises.push(api('/api/data/' + aCols[i])); 
+  Promise.all(promises).then(function (results) { 
+    var h = '<div class="u-welcome"><h2>Halo, ' + esc(me.name) + '!</h2><p>' + aCols.length + ' koleksi data utama</p></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px;margin-bottom:22px">'; 
+    for (var j = 0; j < aCols.length; j++) { 
+      var c = aCols[j]; 
+      var lb = c.replace(/_/g, ' ').replace(/\b\w/g, function (l) { return l.toUpperCase(); }); 
+      h += '<div class="stat-mini" data-col="' + c + '"><i class="fas ' + (colIcons[c] || 'fa-database') + '" style="font-size:20px;color:#2d6a4f;display:block;margin-bottom:8px"></i><div style="font-size:24px;font-weight:900;color:#2d6a4f">' + results[j].length + '</div><div style="font-size:9px;color:#999;font-weight:700;text-transform:uppercase;margin-top:3px">' + lb + '</div></div>'; 
+    } 
+    h += '</div>'; 
+    document.getElementById('aC').innerHTML = h; 
+    document.querySelectorAll('.stat-mini[data-col]').forEach(function (el) { el.addEventListener('click', function () { var col = this.dataset.col; var btn = document.querySelector('#aMenu .menu-item[data-col="' + col + '"]'); if (btn) aGo(col, btn); }); }); 
+  }).catch(function (e) { document.getElementById('aC').innerHTML = '<div class="box"><div class="empty">Error: ' + esc(e.message) + '</div></div>'; }); 
+}
+
+/* ========== ADMIN STATS & LAPORAN (BARU) ========== */
+function renderAdminStats() {
+  document.getElementById('aC').innerHTML = '<div class="empty"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+  Promise.all([api('/api/admin/reports'), api('/api/admin/doctors-stats')]).then(function(res) {
+    var rev = res[0], docs = res[1];
+    var h = '<div class="u-welcome" style="background:linear-gradient(135deg,#e76f51,#f4845f);padding:30px"><h2>Total Pendapatan</h2><p style="font-size:36px;font-weight:900;margin-top:10px;opacity:1">' + rp(rev.total_revenue) + '</p><div style="font-size:12px;margin-top:10px;opacity:0.8">Selesai: ' + rev.orders_completed + ' Pesanan & ' + rev.appointments_completed + ' Appointment</div></div>';
+    h += '<div class="section-head"><h3>Status Tim Dokter</h3></div><div class="box"><table><thead><tr><th>Nama Dokter</th><th>Spesialisasi</th><th>Janji Aktif</th></tr></thead><tbody>';
+    for(var i=0; i<docs.length; i++) {
+      h += '<tr><td style="font-weight:800">' + esc(docs[i].name) + '</td><td>' + esc(docs[i].specialization || '-') + '</td><td><span class="badge bg-b">' + docs[i].active_appointments + ' Antrean</span></td></tr>';
+    }
+    h += '</tbody></table></div>';
+    document.getElementById('aC').innerHTML = h;
+  }).catch(function(e) { document.getElementById('aC').innerHTML = '<div class="box"><div class="empty">Error</div></div>'; });
+}
+
+/* ========== ADMIN CRUD FORM ========== */
+function detectFieldType(k, v) { var kl = k.toLowerCase(); if (k === '_id' || k === '__v') return null; if (numFields.indexOf(kl) >= 0) return 'number'; if (kl.indexOf('date') >= 0 || kl === 'created_at' || kl === 'updated_at' || kl === 'approved_at') return 'date'; if (kl.indexOf('email') >= 0) return 'email'; if (kl.indexOf('phone') >= 0 || kl.indexOf('no_hp') >= 0) return 'tel'; if (kl.indexOf('image') >= 0 || kl.indexOf('img') >= 0 || kl === 'url') return 'url'; if (kl.indexOf('desc') >= 0 || kl.indexOf('note') >= 0 || kl.indexOf('catatan') >= 0 || kl.indexOf('alamat') >= 0 || kl.indexOf('address') >= 0 || kl.indexOf('items') >= 0) return 'textarea'; if (kl === 'status' || kl === 'role' || kl === 'pet_type' || kl === 'pettype' || kl === 'category' || kl === 'delivery_method' || kl === 'payment_method') return 'select'; return 'text'; }
+function getFieldLabel(k) { return k.replace(/_/g, ' ').replace(/\b\w/g, function (l) { return l.toUpperCase(); }); }
+function getSelectOptions(k) { var o = { status: ['Pending', 'Disetujui', 'Ditolak', 'Selesai', 'Batal', 'Menunggu Pembayaran', 'Menunggu Verifikasi', 'Diproses', 'Dikirim', 'Diterima', 'Aktif', 'Nonaktif'], role: ['admin', 'user'], pet_type: ['Kucing', 'Anjing', 'Kelinci', 'Hamster'], petType: ['Kucing', 'Anjing', 'Kelinci', 'Hamster'], category: ['Makanan Kucing', 'Makanan Anjing', 'Vitamin', 'Aksesoris', 'Obat', 'Shampoo', 'Mainan'], delivery_method: ['pickup', 'delivery'], payment_method: ['Transfer Bank BCA', 'Transfer Bank Mandiri', 'GoPay', 'OVO', 'Dana', 'Bayar di Tempat'] }; return o[k] || []; }
+function buildCrudForm(fields, data) { var h = ''; for (var i = 0; i < fields.length; i++) { var k = fields[i]; var type = detectFieldType(k, data ? data[k] : null); if (!type) continue; var val = data ? data[k] : ''; var isFull = type === 'textarea'; h += '<div class="fg' + (isFull ? ' full' : '') + '"><label>' + esc(getFieldLabel(k)) + '</label>'; if (type === 'select') { var opts = getSelectOptions(k); h += '<select data-field="' + k + '"><option value="">-- Pilih --</option>'; for (var j = 0; j < opts.length; j++) h += '<option value="' + opts[j] + '"' + (val === opts[j] ? ' selected' : '') + '>' + opts[j] + '</option>'; h += '</select>'; } else if (type === 'textarea') { h += '<textarea data-field="' + k + '">' + esc(val) + '</textarea>'; } else { h += '<input type="' + type + '" data-field="' + k + '" value="' + esc(String(val)) + '">'; } h += '</div>'; } return h; }
+function collectFormData() { var obj = {}; document.querySelectorAll('#crudFormArea [data-field]').forEach(function (el) { var k = el.dataset.field; var type = detectFieldType(k, null); if (type === 'number') obj[k] = el.value ? Number(el.value) : 0; else if (type === 'date') obj[k] = el.value || null; else obj[k] = el.value; }); return obj; }
+
+function renderAdminCRUD(col) { api('/api/data/' + col).then(function (data) { var fields = []; var seen = {}; for (var i = 0; i < data.length; i++) { for (var k in data[i]) { if (k !== '_id' && k !== '__v' && !seen[k]) { seen[k] = true; fields.push(k); } } } if (!fields.length) fields = ['name', 'price', 'description', 'category', 'stock']; var h = '<div class="admin-search"><input type="text" id="adminSearch" placeholder="Cari..."><span class="count" id="adminCount">' + data.length + ' data</span><button class="btn btn-g btn-sm" style="width:auto" id="btnCrudAdd"><i class="fas fa-plus"></i> Tambah</button></div>'; h += '<div class="box"><div style="overflow-x:auto"><table><thead><tr><th>No</th>'; var sf = fields.slice(0, 7); for (var j = 0; j < sf.length; j++) h += '<th>' + getFieldLabel(sf[j]) + '</th>'; h += '<th>Aksi</th></tr></thead><tbody id="adminTbody">'; if (!data.length) { h += '<tr><td colspan="' + (sf.length + 2) + '"><div class="empty"><i class="fas fa-inbox"></i>Kosong</div></td></tr>'; } else { for (var r = 0; r < data.length; r++) { h += '<tr><td>' + (r + 1) + '</td>'; for (var c = 0; c < sf.length; c++) { var f = sf[c]; var v = data[r][f]; if (numFields.indexOf(f) >= 0) h += '<td class="money">' + rp(v) + '</td>'; else if (f === 'status') h += '<td>' + statusBadge(v) + '</td>'; else h += '<td>' + esc(truncate(String(v != null ? v : ''), 38)) + '</td>'; } h += '<td><div class="action-btns"><button class="ab-edit" data-id="' + data[r]._id + '"><i class="fas fa-pen"></i></button><button class="ab-del" data-id="' + data[r]._id + '"><i class="fas fa-trash"></i></button></div></td></tr>'; } } h += '</tbody></table></div></div>'; document.getElementById('aC').innerHTML = h; document.getElementById('adminSearch').addEventListener('input', function () { var q = this.value.toLowerCase(); var vis = 0; document.querySelectorAll('#adminTbody tr').forEach(function (row) { var show = !q || row.textContent.toLowerCase().indexOf(q) >= 0; row.style.display = show ? '' : 'none'; if (show) vis++; }); document.getElementById('adminCount').textContent = vis + ' data'; }); document.getElementById('btnCrudAdd').addEventListener('click', function () { openCrudForm(col, fields, null, 'create'); }); document.querySelectorAll('.ab-edit').forEach(function (btn) { btn.addEventListener('click', function () { var item = data.find(function (d) { return d._id === this.dataset.id; }.bind(this)); if (item) openCrudForm(col, fields, item, 'edit'); }); }); document.querySelectorAll('.ab-del').forEach(function (btn) { btn.addEventListener('click', function () { showConfirm('Hapus Data', 'Yakin?', function () { api('/api/data/' + col + '/' + btn.dataset.id, { method: 'DELETE' }).then(function () { msg('Dihapus'); renderAdminCRUD(col); }).catch(function (e) { msg(e.message, false); }); }); }); }); }).catch(function (e) { document.getElementById('aC').innerHTML = '<div class="box"><div class="empty">Error</div></div>'; }); }
+function openCrudForm(col, fields, data, mode) { crudCollection = col; crudMode = mode; crudEditId = data ? data._id : null; document.getElementById('crudTitle').textContent = mode === 'create' ? 'Tambah' : 'Edit'; document.getElementById('crudFormArea').innerHTML = buildCrudForm(fields, data); document.getElementById('crudModal').classList.add('show'); }
+function saveCrud() { if (crudCollection === '_users') { var obj = collectFormData(); if (!obj.name || !obj.email) { msg('Nama & email wajib', false); return; } if (crudMode === 'create' && !obj.password) { msg('Password wajib', false); return; } var url = crudMode === 'create' ? '/api/admin/users' : '/api/admin/users/' + crudEditId; api(url, { method: crudMode === 'create' ? 'POST' : 'PUT', body: JSON.stringify(obj) }).then(function () { msg('User disimpan'); document.getElementById('crudModal').classList.remove('show'); renderAdminUsers(); }).catch(function (e) { msg(e.message, false); }); return; } var obj = collectFormData(); if (!obj.name && !obj.service_name && !obj.customer_name) { msg('Field utama wajib', false); return; } var url = crudMode === 'create' ? '/api/data/' + crudCollection : '/api/data/' + crudCollection + '/' + crudEditId; api(url, { method: crudMode === 'create' ? 'POST' : 'PUT', body: JSON.stringify(obj) }).then(function () { msg('Data disimpan'); document.getElementById('crudModal').classList.remove('show'); renderAdminCRUD(crudCollection); }).catch(function (e) { msg(e.message, false); }); }
+
+/* ========== ADMIN APPOINTMENTS ========== */
+function renderAdminAppointments() { api('/api/data/appointments').then(function (data) { var h = ''; for (var i = 0; i < data.length; i++) { var a = data[i]; var isP = a.status === 'Pending'; h += '<div class="box" style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:14px;font-weight:800;margin-bottom:3px">' + esc(a.pet_name || '-') + ' <span style="color:#999;font-weight:400;font-size:12px">(' + esc(a.pet_type || '-') + ')</span></div><div style="font-size:12px;color:#888">Layanan: <b>' + esc(a.service_name || '-') + '</b> &middot; Pelanggan: <b>' + esc(a.customer_name || '-') + '</b>' + (a.customer_phone ? ' &middot; <i class="fab fa-whatsapp" style="color:#25D366"></i> ' + esc(a.customer_phone) : '') + '</div><div style="font-size:12px;color:#888">Tanggal: ' + esc(a.date || 'TBD') + ' &middot; Jam: ' + esc(a.time || 'TBD') + ' &middot; Dokter: ' + esc(a.doctor_name || '-') + '</div></div><div style="display:flex;align-items:center;gap:7px">' + statusBadge(a.status) + (a.total_price ? '<span class="money">' + rp(a.total_price) + '</span>' : '') + '</div></div>'; h += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;display:flex;gap:7px;flex-wrap:wrap;align-items:end">'; if (isP) { h += '<div class="fg" style="margin:0;min-width:125px"><label>Tanggal</label><input type="date" class="apt-date-' + i + '" value="' + (a.date || '') + '"></div><div class="fg" style="margin:0;min-width:95px"><label>Jam</label><select class="apt-time-' + i + '"><option value="">Pilih</option>'; var hrs = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00']; for (var j = 0; j < hrs.length; j++) h += '<option value="' + hrs[j] + '"' + (a.time === hrs[j] ? ' selected' : '') + '>' + hrs[j] + '</option>'; h += '</select></div><div class="fg" style="margin:0;min-width:130px"><label>Dokter</label><input class="apt-doc-' + i + '" value="' + esc(a.doctor_name || '') + '"></div>'; h += '<button class="btn btn-g btn-sm" style="width:auto" onclick="approveApt(\'' + a._id + '\',' + i + ')"><i class="fas fa-check"></i> Setujui</button><button class="btn btn-danger btn-sm" style="width:auto" onclick="rejectApt(\'' + a._id + '\')"><i class="fas fa-times"></i> Tolak</button>'; } if (a.customer_phone) h += '<div style="margin-left:auto"><button class="btn btn-wa btn-sm" style="width:auto" onclick="sendWAAppointment(\'' + a._id + '\')"><i class="fab fa-whatsapp"></i> Kirim WA</button></div>'; h += '</div></div>'; } document.getElementById('aC').innerHTML = h || '<div class="box"><div class="empty"><i class="fas fa-calendar-times"></i>Kosong</div></div>'; }).catch(function () { document.getElementById('aC').innerHTML = '<div class="box"><div class="empty">Error</div></div>'; }); }
+function approveApt(id, idx) { var d = document.querySelector('.apt-date-' + idx); var t = document.querySelector('.apt-time-' + idx); var doc = document.querySelector('.apt-doc-' + idx); var body = { status: 'Disetujui' }; if (d) body.date = d.value; if (t) body.time = t.value; if (doc) body.doctor_name = doc.value; api('/api/appointments/' + id + '/approve', { method: 'PUT', body: JSON.stringify(body) }).then(function () { msg('Disetujui'); renderAdminAppointments(); }).catch(function (e) { msg(e.message, false); }); }
+function rejectApt(id) { showConfirm('Tolak', 'Yakin?', function () { api('/api/appointments/' + id + '/status', { method: 'PUT', body: JSON.stringify({ status: 'Ditolak' }) }).then(function () { msg('Ditolak'); renderAdminAppointments(); }).catch(function (e) { msg(e.message, false); }); }); document.getElementById('confirmYes').textContent = 'Tolak'; document.getElementById('confirmYes').className = 'btn btn-warn btn-sm'; }
+
+/* ========== ADMIN ORDERS ========== */
+function renderAdminOrders() { api('/api/data/orders').then(function (data) { var h = ''; for (var i = 0; i < data.length; i++) { var o = data[i]; h += '<div class="ord-card"><div class="ord-head"><span class="ord-id">' + esc(String(o._id).substring(0, 14)) + '...</span>' + statusBadge(o.status) + '</div><div style="font-size:12px;color:#888;margin-bottom:4px"><b>Pelanggan:</b> ' + esc(o.customer_name || '-') + (o.customer_phone ? ' &middot; <i class="fab fa-whatsapp" style="color:#25D366"></i> ' + esc(o.customer_phone) : '') + '</div><div style="font-size:12px;color:#666;margin-bottom:10px">' + esc(o.items || o.item_names || '-') + '</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px">'; var sts = ['Menunggu Verifikasi', 'Diproses', 'Dikirim', 'Diterima', 'Selesai', 'Batal']; for (var j = 0; j < sts.length; j++) { h += '<button class="btn btn-sm ' + (o.status === sts[j] ? 'btn-g' : 'btn-out') + '" style="width:auto;font-size:10px;padding:4px 9px" onclick="changeOrderStatus(\'' + o._id + '\',\'' + sts[j] + '\')">' + sts[j] + '</button>'; } h += '</div><div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #f5f5f5"><span class="money" style="font-size:15px">' + rp(o.total_price) + '</span>'; if (o.customer_phone) h += '<button class="btn btn-wa btn-sm" style="width:auto" onclick="sendWAOrderDelivery(\'' + o._id + '\',\'' + o.status + '\')"><i class="fab fa-whatsapp"></i> Update WA</button>'; h += '</div></div>'; } document.getElementById('aC').innerHTML = h || '<div class="box"><div class="empty"><i class="fas fa-shopping-bag"></i>Kosong</div></div>'; }).catch(function () { document.getElementById('aC').innerHTML = '<div class="box"><div class="empty">Error</div></div>'; }); }
+function changeOrderStatus(id, status) { api('/api/appointments/' + id + '/status', { method: 'PUT', body: JSON.stringify({ status: status }) }).then(function () { msg('Status: ' + status); renderAdminOrders(); }).catch(function (e) { msg(e.message, false); }); }
+
+/* ========== ADMIN USERS ========== */
+function renderAdminUsers() { api('/api/users').then(function (users) { var h = '<div class="admin-search"><input type="text" id="userSearch" placeholder="Cari user..."><span class="count">' + users.length + ' user</span><button class="btn btn-g btn-sm" style="width:auto" id="btnAddUser"><i class="fas fa-user-plus"></i> Tambah</button></div><div class="box"><table><thead><tr><th>Nama</th><th>Email</th><th>Phone</th><th>Role</th><th>Aksi</th></tr></thead><tbody>'; for (var i = 0; i < users.length; i++) { var u = users[i]; h += '<tr><td style="font-weight:700">' + esc(u.name) + '</td><td>' + esc(u.email) + '</td><td>' + esc(u.phone || '-') + '</td><td>' + (u.role === 'admin' ? '<span class="badge badge-admin">Admin</span>' : '<span class="badge badge-user">User</span>') + '</td><td><div class="action-btns"><button class="ab-edit" data-uid="' + u._id + '"><i class="fas fa-pen"></i></button>'; if (u.phone) h += '<button class="ab-wa" onclick="openWAModal(\'' + esc(u.phone) + '\',\'Halo ' + esc(u.name) + ', pesan dari PawCare.\')"><i class="fab fa-whatsapp"></i></button>'; h += '<button class="ab-del" data-uid="' + u._id + '"><i class="fas fa-trash"></i></button></div></td></tr>'; } h += '</tbody></table></div>'; document.getElementById('aC').innerHTML = h; document.getElementById('userSearch').addEventListener('input', function () { var q = this.value.toLowerCase(); document.querySelectorAll('#aC tbody tr').forEach(function (r) { r.style.display = (!q || r.textContent.toLowerCase().indexOf(q) >= 0) ? '' : 'none'; }); }); document.getElementById('btnAddUser').addEventListener('click', function () { openUserForm(null); }); document.querySelectorAll('.ab-edit').forEach(function (btn) { btn.addEventListener('click', function () { var user = users.find(function (u) { return u._id === this.dataset.uid; }.bind(this)); if (user) openUserForm(user); }); }); document.querySelectorAll('.ab-del').forEach(function (btn) { btn.addEventListener('click', function () { showConfirm('Hapus User', 'Yakin?', function () { api('/api/admin/users/' + btn.dataset.uid, { method: 'DELETE' }).then(function () { msg('Dihapus'); renderAdminUsers(); }).catch(function (e) { msg(e.message, false); }); }); }); }); }); }
+function openUserForm(user) { crudCollection = '_users'; crudMode = user ? 'edit' : 'create'; crudEditId = user ? user._id : null; document.getElementById('crudTitle').textContent = user ? 'Edit User' : 'Tambah User'; var h = '<div class="fg full"><label>Nama</label><input type="text" data-field="name" value="' + esc(user ? user.name : '') + '"></div><div class="fg full"><label>Email</label><input type="email" data-field="email" value="' + esc(user ? user.email : '') + '"></div><div class="fg full"><label>Phone</label><input type="tel" data-field="phone" value="' + esc(user ? user.phone || '' : '') + '"></div><div class="fg full"><label>Password' + (user ? ' (kosongkan jika tidak diubah)' : '') + '</label><input type="password" data-field="password" value=""></div><div class="fg"><label>Role</label><select data-field="role"><option value="user"' + (user && user.role === 'user' ? ' selected' : '') + '>User</option><option value="admin"' + (user && user.role === 'admin' ? ' selected' : '') + '>Admin</option></select></div>'; document.getElementById('crudFormArea').innerHTML = h; document.getElementById('crudModal').classList.add('show'); }
+
+/* ========== USER MENU ========== */
+var userMenuItems = [{ id: 'home', icon: 'fa-home', label: 'Beranda' }, { id: 'booking', icon: 'fa-calendar-plus', label: 'Booking' }, { id: 'grooming', icon: 'fa-cut', label: 'PawCare Spa' }, { id: 'medical', icon: 'fa-heartbeat', label: 'Medis & Vaksin' }, { id: 'products', icon: 'fa-store', label: 'Belanja' }, { id: 'cart', icon: 'fa-shopping-cart', label: 'Keranjang', badge: true }, { id: 'my-orders', icon: 'fa-receipt', label: 'Pesanan Saya' }, { id: 'my-appointments', icon: 'fa-calendar-check', label: 'Appointment' }, { id: 'profile', icon: 'fa-user-circle', label: 'Profil' }];
+function buildUserMenu() { var m = document.getElementById('uMenu'); var h = ''; for (var i = 0; i < userMenuItems.length; i++) { var it = userMenuItems[i]; h += '<div class="menu-item' + (i === 0 ? ' active' : '') + '" data-page="' + it.id + '"><i class="fas ' + it.icon + '"></i><span class="stxt">' + it.label + '</span>'; if (it.badge) h += '<span class="cart-badge" id="cartBadge" style="display:none">0</span>'; h += '</div>'; } m.innerHTML = h; m.querySelectorAll('.menu-item').forEach(function (el) { el.addEventListener('click', function () { uGo(this.dataset.page, this); }); }); }
+function uGo(page, btn) { if (btn) { document.querySelectorAll('#uMenu .menu-item').forEach(function (b) { b.classList.remove('active'); }); btn.classList.add('active'); } closeSB('uSB', 'uOv'); var titles = { home: 'Beranda', booking: 'Booking Layanan', grooming: 'PawCare Spa', medical: 'Medis & Vaksin', products: 'Belanja Produk', cart: 'Keranjang', 'my-orders': 'Pesanan Saya', 'my-appointments': 'Appointment Saya', profile: 'Profil' }; document.getElementById('uTtl').textContent = titles[page] || page; switch (page) { case 'home': renderUserHome(); break; case 'booking': renderUserBooking(); break; case 'grooming': renderUserGrooming(); break; case 'medical': renderUserMedical(); break; case 'products': renderUserProducts(); break; case 'cart': renderUserCart(); break; case 'my-orders': renderUserOrders(); break; case 'my-appointments': renderUserAppointments(); break; case 'profile': renderUserProfile(); break; } }
+
+/* ========== USER PAGES ========== */
+function renderUserHome() { var h = '<div class="u-welcome"><h2>Halo, ' + esc(me.name) + '!</h2><p>Selamat datang kembali di PawCare.</p></div><div class="quick-actions">'; h += '<div class="qa-card" onclick="uGo(\'booking\',document.querySelector(\'[data-page=booking]\'))"><div class="qa-icon" style="background:#dbeafe;color:#1e40af"><i class="fas fa-calendar-plus"></i></div><h4>Booking</h4><p>Janji dokter, vaksin</p></div>'; h += '<div class="qa-card" onclick="uGo(\'products\',document.querySelector(\'[data-page=products]\'))"><div class="qa-icon" style="background:#d8f3dc;color:#2d6a4f"><i class="fas fa-store"></i></div><h4>Belanja</h4><p>Makanan, vitamin</p></div>'; h += '<div class="qa-card" onclick="uGo(\'my-orders\',document.querySelector(\'[data-page=my-orders]\'))"><div class="qa-icon" style="background:#fef9c3;color:#854d0e"><i class="fas fa-receipt"></i></div><h4>Pesanan</h4><p>Lacak pesanan</p></div>'; h += '<div class="qa-card" onclick="uGo(\'my-appointments\',document.querySelector(\'[data-page=my-appointments]\'))"><div class="qa-icon" style="background:#f3e8ff;color:#7c3aed"><i class="fas fa-calendar-check"></i></div><h4>Appointment</h4><p>Riwayat janji</p></div>'; h += '</div>'; h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px"><div><div class="section-head"><h3>Appointment Terbaru</h3><a onclick="uGo(\'my-appointments\',document.querySelector(\'[data-page=my-appointments]\'))">Lihat Semua</a></div><div id="homeApts"><div class="empty" style="padding:22px"><i class="fas fa-spinner fa-spin"></i></div></div></div><div><div class="section-head"><h3>Pesanan Terbaru</h3><a onclick="uGo(\'my-orders\',document.querySelector(\'[data-page=my-orders]\'))">Lihat Semua</a></div><div id="homeOrds"><div class="empty" style="padding:22px"><i class="fas fa-spinner fa-spin"></i></div></div></div></div>'; document.getElementById('uC').innerHTML = h; api('/api/my-appointments').then(function (apts) { var el = document.getElementById('homeApts'); if (!apts.length) { el.innerHTML = '<div class="empty" style="padding:22px"><i class="fas fa-calendar-times"></i>Kosong</div>'; return; } var s = ''; for (var i = 0; i < Math.min(apts.length, 3); i++) { var a = apts[i]; s += '<div class="apt-card" style="padding:13px"><div class="ac-icon" style="background:#dbeafe;color:#1e40af;width:38px;height:38px;border-radius:10px;font-size:15px"><i class="fas fa-paw"></i></div><div class="ac-body"><div class="ac-name">' + esc(a.pet_name || '-') + '</div><div class="ac-meta">' + esc(a.date || 'TBD') + ' &middot; ' + esc(a.time || 'TBD') + '</div></div>' + statusBadge(a.status) + '</div>'; } el.innerHTML = s; }).catch(function () { document.getElementById('homeApts').innerHTML = '<div class="empty" style="padding:22px">Error</div>'; }); api('/api/my-orders').then(function (ords) { var el = document.getElementById('homeOrds'); if (!ords.length) { el.innerHTML = '<div class="empty" style="padding:22px"><i class="fas fa-shopping-bag"></i>Kosong</div>'; return; } var s = ''; for (var i = 0; i < Math.min(ords.length, 3); i++) { var o = ords[i]; s += '<div class="ord-card" style="padding:13px"><div class="ord-head" style="margin-bottom:5px"><span class="ord-id">' + esc(String(o._id).substring(0, 10)) + '...</span>' + statusBadge(o.status) + '</div><div class="ord-bottom" style="border:none;padding:0"><span style="font-size:11px;color:#999">' + esc(o.delivery_method || 'pickup') + '</span><span class="money" style="font-size:13px">' + rp(o.total_price) + '</span></div></div>'; } el.innerHTML = s; }).catch(function () { document.getElementById('homeOrds').innerHTML = '<div class="empty" style="padding:22px">Error</div>'; }); }
+
+function renderUserBooking() { 
+  var h = '<div class="med-hero"><h2>Booking Layanan</h2><p>Pilih layanan medis dan buat appointment.</p></div><div class="box"><h3>Form Booking Medis</h3><div class="crud-form-grid"><div class="fg full"><label>Jenis Layanan</label><select id="bkService" onchange="onBkSvc()"><option value="">-- Pilih --</option><option value="Konsultasi Dokter">Konsultasi Dokter</option><option value="Vaksinasi">Vaksinasi</option><option value="Sterilisasi">Sterilisasi</option></select></div><div class="fg"><label>Pilih Dokter</label><select id="bkDoc"><option value="">-- Bebas / Akan Ditentukan Klinik --</option></select></div><div class="fg"><label>Nama Hewan</label><input id="bkPetName" placeholder="Nama hewan"></div><div class="fg"><label>Jenis Hewan</label><select id="bkPetType"><option value="Kucing">Kucing</option><option value="Anjing">Anjing</option><option value="Kelinci">Kelinci</option><option value="Hamster">Hamster</option></select></div><div class="fg"><label>Tanggal</label><input type="date" id="bkDate" onchange="loadSlots()"></div><div class="fg"><label>Waktu</label><div id="bkSlotArea"><p style="font-size:11px;color:#bbb">Pilih tanggal</p></div></div><div class="fg full"><label>Catatan</label><textarea id="bkNotes" placeholder="Catatan..."></textarea></div></div><div style="margin-top:14px"><button class="btn btn-g" style="width:auto;padding:11px 30px" onclick="submitBooking()"><i class="fas fa-check-circle"></i> Ajukan</button></div></div>'; 
+  document.getElementById('uC').innerHTML = h; 
+  sv('bkDate', new Date().toISOString().split('T')[0]); 
+  
+  // Mengambil daftar dokter dari database
+  api('/api/data/doctors').then(function(docs) {
+    var opts = '<option value="">-- Bebas / Akan Ditentukan Klinik --</option>';
+    for(var i=0; i<docs.length; i++) opts += '<option value="'+docs[i].name+'">'+docs[i].name+' ('+(docs[i].specialization||'Umum')+')</option>';
+    document.getElementById('bkDoc').innerHTML = opts;
+  }).catch(function(e) { console.error('Gagal mengambil data dokter:', e.message); });
+}
+
+function onBkSvc() { if (gv('bkService').toLowerCase().includes('steril')) { document.getElementById('bkDate').value = ''; document.getElementById('bkSlotArea').innerHTML = '<p style="font-size:11px;color:#e76f51"><i class="fas fa-info-circle"></i> Tanggal ditentukan admin.</p>'; } else { loadSlots(); } }
+function loadSlots() { var date = gv('bkDate'); if (!date) return; document.getElementById('bkSlotArea').innerHTML = '<p style="font-size:11px;color:#bbb"><i class="fas fa-spinner fa-spin"></i></p>'; api('/api/slots?tanggal=' + date).then(function (res) { var h = '<div class="slot-grid">'; for (var i = 0; i < res.slots.length; i++) { var s = res.slots[i]; h += '<div class="slot-btn' + (s.full ? ' full' : '') + '" data-time="' + s.time + '" onclick="pickSlot(this)"><div class="slot-time">' + s.time + '</div><div class="slot-avail">' + (s.full ? 'Penuh/Lewat' : 'Tersedia: ' + s.available) + '</div></div>'; } h += '</div>'; document.getElementById('bkSlotArea').innerHTML = h; }); }
+var pickedSlot = null;
+function pickSlot(el) { if (el.classList.contains('full')) return; document.querySelectorAll('.slot-btn').forEach(function (b) { b.classList.remove('selected'); }); el.classList.add('selected'); pickedSlot = el.dataset.time; }
+function submitBooking() { var svc = gv('bkService'), pn = gv('bkPetName'), pt = gv('bkPetType'), dt = gv('bkDate'), nt = gv('bkNotes'), doc = gv('bkDoc'); if (!svc) { msg('Pilih layanan', false); return; } if (!pn) { msg('Nama hewan wajib', false); return; } var body = { service_name: svc, pet_name: pn, pet_type: pt, customer_name: me.name, customer_phone: me.phone, notes: nt, doctor_name: doc }; if (!svc.toLowerCase().includes('steril')) { if (!dt) { msg('Pilih tanggal', false); return; } if (!pickedSlot) { msg('Pilih waktu', false); return; } body.date = dt; body.time = pickedSlot; } api('/api/my-appointments', { method: 'POST', body: JSON.stringify(body) }).then(function () { msg('Booking diajukan!'); pickedSlot = null; uGo('my-appointments', document.querySelector('[data-page=my-appointments]')); }).catch(function (e) { msg(e.message, false); }); }
+
+function renderUserGrooming() { selectedGroom = []; var h = '<div class="med-hero" style="background:linear-gradient(135deg,#0e7490,#2d6a4f)"><h2>Grooming Spa</h2><p>Pilih paket Grooming Spa Premium PawCare.</p></div>'; api('/api/data/services').then(function (svcs) { var gs = svcs.filter(function (s) { return (s.name || '').toLowerCase().includes('groom') || (s.category || '').toLowerCase().includes('groom'); }); if (gs.length) { h += '<div class="groom-grid">'; for (var i = 0; i < gs.length; i++) { var s = gs[i]; h += '<div class="groom-opt" data-idx="' + i + '" onclick="toggleGroom(this,' + i + ')"><div class="go-check"><i class="fas fa-check"></i></div><div class="go-name">' + esc(s.name) + '</div><div class="go-desc">' + esc(s.description || '') + '</div><div class="go-price">' + rp(s.price) + '</div></div>'; } h += '</div>'; } h += '<div class="groom-total"><div><div class="gt-label">Total Dipilih</div><div style="font-size:11px;opacity:.5;margin-top:2px" id="groomCount">0 layanan</div></div><div class="gt-val" id="groomTotalVal">Rp 0</div></div>'; h += '<div class="box"><h3>Pet Info</h3><div class="crud-form-grid"><div class="fg"><label>Nama Hewan</label><input id="grPetName"></div><div class="fg"><label>Jenis</label><select id="grPetType"><option value="Kucing">Kucing</option><option value="Anjing">Anjing</option></select></div><div class="fg"><label>Tanggal</label><input type="date" id="grDate" onchange="loadGroomSlots()"></div><div class="fg"><label>Waktu</label><div id="grSlotArea"><p style="font-size:11px;color:#bbb">Pilih tanggal</p></div></div></div><div style="margin-top:14px"><button class="btn btn-g" style="width:auto;padding:11px 30px" onclick="submitGrooming()"><i class="fas fa-check-circle"></i> Booking Spa</button></div></div>'; document.getElementById('uC').innerHTML = h; window._groomSvcs = gs; sv('grDate', new Date().toISOString().split('T')[0]); }); }
+function toggleGroom(el, idx) { el.classList.toggle('selected'); var i = selectedGroom.indexOf(idx); if (i >= 0) selectedGroom.splice(i, 1); else selectedGroom.push(idx); var t = 0; if (window._groomSvcs) for (var j = 0; j < selectedGroom.length; j++) t += Number(window._groomSvcs[selectedGroom[j]].price) || 0; var el1 = document.getElementById('groomTotalVal'); var el2 = document.getElementById('groomCount'); if (el1) el1.textContent = rp(t); if (el2) el2.textContent = selectedGroom.length + ' layanan'; }
+var pickedGroomSlot = null;
+function loadGroomSlots() { var d = gv('grDate'); if (!d) return; document.getElementById('grSlotArea').innerHTML = '<p style="font-size:11px;color:#bbb"><i class="fas fa-spinner fa-spin"></i></p>'; api('/api/slots?tanggal=' + d).then(function (res) { var h = '<div class="slot-grid">'; for (var i = 0; i < res.slots.length; i++) { var s = res.slots[i]; h += '<div class="slot-btn' + (s.full ? ' full' : '') + '" data-time="' + s.time + '" onclick="pickGroomSlot(this)"><div class="slot-time">' + s.time + '</div><div class="slot-avail">' + (s.full ? 'Penuh/Lewat' : 'Tersedia: ' + s.available) + '</div></div>'; } h += '</div>'; document.getElementById('grSlotArea').innerHTML = h; }); }
+function pickGroomSlot(el) { if (el.classList.contains('full')) return; document.querySelectorAll('#grSlotArea .slot-btn').forEach(function (b) { b.classList.remove('selected'); }); el.classList.add('selected'); pickedGroomSlot = el.dataset.time; }
+function submitGrooming() { if (!selectedGroom.length) { msg('Pilih minimal 1 layanan', false); return; } if (!gv('grPetName')) { msg('Nama hewan wajib', false); return; } if (!gv('grDate')) { msg('Pilih tanggal', false); return; } if (!pickedGroomSlot) { msg('Pilih waktu', false); return; } var names = [], t = 0; for (var i = 0; i < selectedGroom.length; i++) { var s = window._groomSvcs[selectedGroom[i]]; names.push(s.name); t += Number(s.price) || 0; } api('/api/my-appointments', { method: 'POST', body: JSON.stringify({ service_name: names.join(', '), pet_name: gv('grPetName'), pet_type: gv('grPetType'), date: gv('grDate'), time: pickedGroomSlot, total_price: t, customer_name: me.name, customer_phone: me.phone }) }).then(function () { msg('Booking grooming berhasil!'); pickedGroomSlot = null; uGo('my-appointments', document.querySelector('[data-page=my-appointments]')); }).catch(function (e) { msg(e.message, false); }); }
+
+function renderUserMedical() { var h = '<div class="med-hero"><h2>Medis & Vaksinasi</h2><p>Vaksinasi dan sterilisasi oleh dokter berpengalaman.</p></div><div class="section-head"><h3><i class="fas fa-syringe" style="color:#e76f51;margin-right:7px"></i>Vaksinasi</h3></div><div class="vaksin-grid">'; for (var i = 0; i < vaksinList.length; i++) { var v = vaksinList[i]; h += '<div class="vaksin-card"><div class="vc-name">' + esc(v.name) + '</div><div class="vc-for"><i class="fas fa-paw" style="margin-right:3px"></i>' + esc(v.for) + '</div><div class="vc-desc">' + esc(v.desc) + '</div><div class="vc-price">' + rp(v.price) + '</div><div class="vc-age"><i class="fas fa-baby" style="margin-right:3px"></i>' + esc(v.age) + '</div><button class="btn btn-g btn-sm" style="width:100%;margin-top:9px" onclick="bkVaksin(\'' + esc(v.name).replace(/'/g, "\\'") + '\')"><i class="fas fa-calendar-plus"></i> Booking</button></div>'; } h += '</div>'; document.getElementById('uC').innerHTML = h; }
+function bkVaksin(name) { sv('bkService', 'Vaksinasi - ' + name); uGo('booking', document.querySelector('[data-page=booking]')); setTimeout(function () { var el = document.getElementById('bkNotes'); if (el) el.value = 'Booking vaksinasi: ' + name; }, 50); }
+
+function renderUserProducts() { var h = '<div style="display:flex;gap:9px;margin-bottom:18px;flex-wrap:wrap"><input type="text" id="prodSearch" placeholder="Cari produk..." style="flex:1;min-width:180px;padding:9px 15px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;outline:none;background:#fff"><select id="prodFilter" style="padding:9px 13px;border:1.5px solid #e8e0d4;border-radius:9px;font-size:13px;outline:none;background:#fff"><option value="">Semua Jenis</option><option value="Kucing">Kucing</option><option value="Anjing">Anjing</option><option value="Kelinci">Kelinci</option><option value="Hamster">Hamster</option></select></div><div class="prod-grid" id="prodGrid"><div class="empty" style="grid-column:1/-1"><i class="fas fa-spinner fa-spin"></i></div></div>'; document.getElementById('uC').innerHTML = h; api('/api/data/products').then(function (prods) { window._products = prods; renderProductGrid(prods); document.getElementById('prodSearch').addEventListener('input', filterProds); document.getElementById('prodFilter').addEventListener('change', filterProds); }).catch(function () { document.getElementById('prodGrid').innerHTML = '<div class="empty" style="grid-column:1/-1">Error</div>'; }); }
+function filterProds() { var q = document.getElementById('prodSearch').value.toLowerCase(); var f = document.getElementById('prodFilter').value; if (!window._products) return; renderProductGrid(window._products.filter(function (p) { return (!q || p.name.toLowerCase().indexOf(q) >= 0 || (p.description || '').toLowerCase().indexOf(q) >= 0) && (!f || (p.petType || p.pet_type || '').toLowerCase() === f.toLowerCase()); })); }
+function renderProductGrid(prods) { var el = document.getElementById('prodGrid'); if (!prods.length) { el.innerHTML = '<div class="empty" style="grid-column:1/-1"><i class="fas fa-search"></i>Tidak ditemukan</div>'; return; } var h = ''; for (var i = 0; i < prods.length; i++) { var p = prods[i]; var pt = p.petType || p.pet_type || ''; var img = p.image || p.img || petImages[pt] || 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300'; var pc = petColor[pt] || 'pc-pet-kucing'; h += '<div class="prod-card"><img src="' + esc(img) + '" alt="" onerror="this.src=\'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300\'"><div class="pc-body">'; if (p.category) h += '<div class="pc-cat">' + esc(p.category) + '</div>'; h += '<div class="pc-name">' + esc(p.name) + '</div>'; if (pt) h += '<span class="pc-pet ' + pc + '">' + esc(pt) + '</span>'; if (p.description) h += '<div class="pc-desc">' + esc(p.description) + '</div>'; h += '<div class="pc-price">' + rp(p.price) + '</div><button class="pc-add" onclick="addToCart(window._products.find(function(x){return x._id===\'' + p._id + '\'}))"><i class="fas fa-cart-plus"></i> Tambah</button></div></div>'; } el.innerHTML = h; }
+
+function renderUserCart() { if (!cart.length) { document.getElementById('uC').innerHTML = '<div class="box" style="text-align:center;padding:55px"><i class="fas fa-shopping-cart" style="font-size:44px;color:#eee;display:block;margin-bottom:14px"></i><h3 style="font-size:17px;font-weight:800;color:#ccc;margin-bottom:7px">Keranjang Kosong</h3><button class="btn btn-g" style="width:auto;padding:11px 26px" onclick="uGo(\'products\',document.querySelector(\'[data-page=products]\'))"><i class="fas fa-store"></i> Belanja</button></div>'; return; } var h = '<div class="box">'; for (var i = 0; i < cart.length; i++) { var c = cart[i]; var img = c.image || petImages[c.petType] || 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=200'; h += '<div class="cart-item"><img src="' + esc(img) + '" onerror="this.src=\'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=200\'"><div class="ci-info"><div class="ci-name">' + esc(c.name) + '</div>'; if (c.petType) h += '<div class="ci-meta">' + esc(c.petType) + '</div>'; h += '<div class="ci-price">' + rp(c.price * (c.qty || 1)) + '</div></div><div class="ci-qty"><button onclick="changeQty(\'' + c._id + '\',' + ((c.qty || 1) - 1) + ');renderUserCart()">-</button><span>' + (c.qty || 1) + '</span><button onclick="changeQty(\'' + c._id + '\',' + ((c.qty || 1) + 1) + ');renderUserCart()">+</button></div><button class="ci-del" onclick="removeCart(\'' + c._id + '\')"><i class="fas fa-trash"></i></button></div>'; } h += '</div><div class="cart-summary"><div class="cs-row"><span>Total Item</span><span>' + cart.reduce(function (s, x) { return s + (x.qty || 1); }, 0) + '</span></div><div class="cs-total"><span>Subtotal</span><span>' + rp(cartTotal()) + '</span></div></div><div style="margin-top:14px"><button class="btn btn-g" style="width:auto;padding:12px 36px;font-size:14px" onclick="openCheckout()"><i class="fas fa-credit-card"></i> Checkout</button></div>'; document.getElementById('uC').innerHTML = h; }
+
+function openCheckout() { if (!cart.length) return; sv('coDelivery', 'pickup'); document.getElementById('coDeliveryArea').classList.add('hide'); sv('coItems', cart.reduce(function (s, x) { return s + (x.qty || 1); }, 0)); sv('coSubtotal', rp(cartTotal())); sv('coShip', 'Rp 0'); sv('coTotal', rp(cartTotal())); sv('coAddress', ''); sv('coNotes', ''); document.getElementById('checkoutModal').classList.add('show'); }
+document.getElementById('coDelivery').addEventListener('change', function () { if (this.value === 'delivery') document.getElementById('coDeliveryArea').classList.remove('hide'); else { document.getElementById('coDeliveryArea').classList.add('hide'); sv('coTotal', rp(cartTotal())); } });
+
+/* MODIFIKASI: SISTEM PEMBAYARAN BCA */
+var timerBCAInterval;
+function startBCATimer() {
+  clearInterval(timerBCAInterval);
+  var t = 24 * 3600; // 24 Jam
+  timerBCAInterval = setInterval(function() {
+    t--;
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+    document.getElementById('timerBCA').innerText = h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    if(t <= 0) clearInterval(timerBCAInterval);
+  }, 1000);
+}
+
+function closePaymentModal() {
+  document.getElementById('paymentModal').classList.remove('show');
+  uGo('my-orders', document.querySelector('[data-page=my-orders]'));
+}
+
+document.getElementById('coConfirm').addEventListener('click', function () { 
+  var items = cart.map(function (c) { return c.name + ' x' + (c.qty || 1); }).join(', '); 
+  var body = { customer_name: me.name, customer_phone: me.phone, items: items, item_names: items, total_price: cartTotal(), payment_method: gv('coPay'), delivery_method: gv('coDelivery'), notes: gv('coNotes') }; 
+  if (gv('coDelivery') === 'delivery') { body.address = gv('coAddress'); body.shipping_cost = 0; } 
+  var btn = this; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true; 
+  
+  api('/api/orders', { method: 'POST', body: JSON.stringify(body) }).then(function () { 
+    cart = []; saveCart(); updateCartBadge(); 
+    document.getElementById('checkoutModal').classList.remove('show'); 
+    
+    if (gv('coPay').toLowerCase().indexOf('bca') >= 0) {
+      document.getElementById('paymentTotal').textContent = rp(body.total_price);
+      document.getElementById('paymentModal').classList.add('show');
+      startBCATimer();
+    } else {
+      msg('Pesanan berhasil dibuat!'); 
+      uGo('my-orders', document.querySelector('[data-page=my-orders]')); 
+    }
+  }).catch(function (e) { msg(e.message, false); }).finally(function () { btn.innerHTML = '<i class="fas fa-check-circle"></i> Konfirmasi Pesanan'; btn.disabled = false; }); 
+});
+
+function renderUserOrders() { api('/api/my-orders').then(function (ords) { if (!ords.length) { document.getElementById('uC').innerHTML = '<div class="box"><div class="empty"><i class="fas fa-receipt"></i>Belum ada pesanan</div></div>'; return; } var h = ''; for (var i = 0; i < ords.length; i++) { var o = ords[i]; h += '<div class="ord-card"><div class="ord-head"><span class="ord-id">' + esc(String(o._id).substring(0, 14)) + '...</span>' + statusBadge(o.status) + '</div><div style="font-size:12px;color:#666;margin-bottom:10px">' + esc(o.items || o.item_names || '-') + '</div><div class="ord-bottom"><span style="font-size:11px;color:#999">' + esc(o.delivery_method || 'pickup') + '</span><span class="money" style="font-size:15px">' + rp(o.total_price) + '</span></div></div>'; } document.getElementById('uC').innerHTML = h; }); }
+function renderUserAppointments() { api('/api/my-appointments').then(function (apts) { if (!apts.length) { document.getElementById('uC').innerHTML = '<div class="box"><div class="empty"><i class="fas fa-calendar-times"></i>Belum ada appointment</div></div>'; return; } var h = ''; for (var i = 0; i < apts.length; i++) { var a = apts[i]; h += '<div class="apt-card"><div class="ac-icon" style="background:#dbeafe;color:#1e40af"><i class="fas fa-paw"></i></div><div class="ac-body"><div class="ac-name">' + esc(a.pet_name || '-') + ' - ' + esc(a.service_name || '-') + '</div><div class="ac-meta">Tanggal: ' + esc(a.date || 'TBD') + ' &middot; Jam: ' + esc(a.time || 'TBD') + (a.doctor_name ? ' &middot; Dokter: ' + esc(a.doctor_name) : '') + '</div></div>' + statusBadge(a.status) + '</div>'; } document.getElementById('uC').innerHTML = h; }); }
+function renderUserProfile() { var h = '<div class="profile-card"><div class="profile-avatar"><i class="fas fa-user"></i></div><div class="profile-row"><span class="label">Nama</span><span>' + esc(me.name) + '</span></div><div class="profile-row"><span class="label">Email</span><span>' + esc(me.email) + '</span></div><div class="profile-row"><span class="label">Phone</span><span>' + esc(me.phone || '-') + '</span></div><div class="profile-row"><span class="label">Role</span><span>' + esc(me.role) + '</span></div></div><div class="box" style="margin-top:18px;max-width:500px"><h3>Ubah Profil</h3><div class="crud-form-grid"><div class="fg full"><label>Nama</label><input id="pfName" value="' + esc(me.name) + '"></div><div class="fg full"><label>Phone</label><input id="pfPhone" value="' + esc(me.phone || '') + '"></div><div class="fg full"><label>Password Baru</label><input type="password" id="pfPass" placeholder="Kosongkan jika tidak diubah"></div></div><div style="margin-top:14px"><button class="btn btn-g" style="width:auto;padding:10px 28px" onclick="saveProfile()"><i class="fas fa-save"></i> Simpan</button></div></div>'; document.getElementById('uC').innerHTML = h; }
+function saveProfile() { api('/api/profile', { method: 'PUT', body: JSON.stringify({ email: me.email, name: gv('pfName'), phone: gv('pfPhone'), password: gv('pfPass') }) }).then(function (u) { me = u; localStorage.setItem('pc', JSON.stringify(me)); document.getElementById('uUn').textContent = me.name; msg('Profil disimpan!'); }).catch(function (e) { msg(e.message, false); }); }
+
+/* ========== LANDING DATA ========== */
+function loadLandingData() { api('/api/data/doctors').then(function (docs) { var el = document.getElementById('landingDocs'); if (!docs.length) { el.innerHTML = '<div class="empty"><i class="fas fa-user-md"></i>Belum ada data</div>'; return; } var h = ''; for (var i = 0; i < docs.length; i++) { var d = docs[i]; h += '<div class="doc-card"><img src="' + esc(d.image || 'https://images.unsplash.com/photo-1629990941644-45c40aac3d68?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZG9rdGVyJTIwaGV3YW58ZW58MHx8MHx8fDA%3D') + '" onerror="this.src=\'https://images.unsplash.com/photo-1629990941644-45c40aac3d68?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZG9rdGVyJTIwaGV3YW58ZW58MHx8MHx8fDA%3D\'"><div class="info"><h3>' + esc(d.name) + '</h3><p>' + esc(d.specialization || 'Dokter Hewan') + '</p></div></div>'; } el.innerHTML = h; }).catch(function () {}); api('/api/data/products').then(function (prods) { var el = document.getElementById('landingProducts'); if (!prods.length) { el.innerHTML = '<div class="empty"><i class="fas fa-box"></i>Belum ada produk</div>'; return; } var h = '<div class="lp-grid">'; for (var i = 0; i < Math.min(prods.length, 8); i++) { var p = prods[i]; var pt = p.petType || p.pet_type || ''; var img = p.image || p.img || petImages[pt] || 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300'; h += '<div class="lp-card"><img src="' + esc(img) + '" onerror="this.src=\'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=300\'"><div class="lp-body">'; if (p.category) h += '<div class="lp-cat">' + esc(p.category) + '</div>'; h += '<div class="lp-name">' + esc(p.name) + '</div>'; if (pt) h += '<span class="lp-pet">' + esc(pt) + '</span>'; h += '<div class="lp-price">' + rp(p.price) + '</div></div></div>'; } h += '</div>'; el.innerHTML = h; }).catch(function () {}); }
+
+/* =====================================================================
+   EVENT LISTENERS — SEMUA TOMBOL DIHUBUNGKAN DI SINI
+   ===================================================================== */
+
+// Landing
+document.getElementById('btnLoginNav').addEventListener('click', function () { showAuth('login'); });
+document.getElementById('btnRegNav').addEventListener('click', function () { showAuth('register'); });
+document.getElementById('btnLoginMob').addEventListener('click', function () { document.getElementById('mobNav').classList.remove('show'); showAuth('login'); });
+document.getElementById('btnRegMob').addEventListener('click', function () { document.getElementById('mobNav').classList.remove('show'); showAuth('register'); });
+// btnHeroReg dialihkan lewat HTML onClick langsung ke prompt login
+document.getElementById('btnHeroScroll').addEventListener('click', function () { document.getElementById('layanan').scrollIntoView({ behavior: 'smooth' }); });
+document.getElementById('btnMob').addEventListener('click', function () { document.getElementById('mobNav').classList.add('show'); });
+document.getElementById('mobNav').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show'); });
+document.querySelectorAll('.mob-link').forEach(function (el) { el.addEventListener('click', function () { document.getElementById('mobNav').classList.remove('show'); }); });
+
+// Auth
+document.getElementById('btnDoLogin').addEventListener('click', doLogin);
+document.getElementById('btnDoReg').addEventListener('click', doReg);
+document.getElementById('linkToReg').addEventListener('click', function () { showAuth('register'); });
+document.getElementById('linkToLogin').addEventListener('click', function () { showAuth('login'); });
+document.getElementById('lPass').addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
+document.getElementById('rPass').addEventListener('keydown', function (e) { if (e.key === 'Enter') doReg(); });
+
+// Admin sidebar
+document.getElementById('aToggle').addEventListener('click', function () { document.getElementById('aSB').classList.toggle('mini'); document.getElementById('aMain').classList.toggle('wide'); });
+document.getElementById('aOv').addEventListener('click', function () { closeSB('aSB', 'aOv'); });
+document.getElementById('aLogout').addEventListener('click', doLogout);
+document.getElementById('aLogoutTop').addEventListener('click', doLogout);
+
+// User sidebar
+document.getElementById('uToggle').addEventListener('click', function () { document.getElementById('uSB').classList.toggle('mini'); document.getElementById('uMain').classList.toggle('wide'); });
+document.getElementById('uOv').addEventListener('click', function () { closeSB('uSB', 'uOv'); });
+document.getElementById('uLogout').addEventListener('click', doLogout);
+document.getElementById('uLogoutTop').addEventListener('click', doLogout);
+
+// CRUD modal
+document.getElementById('crudClose').addEventListener('click', function () { document.getElementById('crudModal').classList.remove('show'); });
+document.getElementById('crudCancel').addEventListener('click', function () { document.getElementById('crudModal').classList.remove('show'); });
+document.getElementById('crudSaveBtn').addEventListener('click', saveCrud);
+document.getElementById('crudModal').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show'); });
+
+// WhatsApp modal
+document.getElementById('waClose').addEventListener('click', function () { document.getElementById('waModal').classList.remove('show'); });
+document.getElementById('waCancelBtn').addEventListener('click', function () { document.getElementById('waModal').classList.remove('show'); });
+document.getElementById('waSendBtn').addEventListener('click', doSendWA);
+document.getElementById('waModal').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show'); });
+
+// Checkout modal
+document.getElementById('coClose').addEventListener('click', function () { document.getElementById('checkoutModal').classList.remove('show'); });
+document.getElementById('coCancelBtn').addEventListener('click', function () { document.getElementById('checkoutModal').classList.remove('show'); });
+document.getElementById('checkoutModal').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show'); });
+
+// BCA Payment modal
+document.getElementById('paymentModal').addEventListener('click', function (e) { if (e.target === this) { this.classList.remove('show'); uGo('my-orders', document.querySelector('[data-page=my-orders]')); } });
+
+// Confirm dialog
+document.getElementById('confirmNo').addEventListener('click', function () { document.getElementById('confirmDlg').classList.remove('show'); confirmCallback = null; });
+document.getElementById('confirmYes').addEventListener('click', function () { document.getElementById('confirmDlg').classList.remove('show'); if (confirmCallback) confirmCallback(); confirmCallback = null; });
+document.getElementById('confirmDlg').addEventListener('click', function (e) { if (e.target === this) { this.classList.remove('show'); confirmCallback = null; } });
+
+// Navbar scroll
+window.addEventListener('scroll', function () { var nav = document.getElementById('lnav'); if (nav) nav.classList.toggle('scrolled', window.scrollY > 20); });
+
+/* ========== INIT ========== */
+(function () {
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem('pc')); } catch (e) { }
+  if (saved && saved.email) { me = saved; showDash(); } else { loadLandingData(); }
+})();
+</script>
+</body>
+</html>
